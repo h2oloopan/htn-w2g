@@ -4,7 +4,10 @@ define(['text!templates/index.html'], function(template) {
   return IndexView = Backbone.View.extend({
     el: $('body'),
     render: function() {
-      return this.$el.html(template);
+      return this.$el.html(_.template(template)({
+        hello: 'Hello Vera!',
+        list: ['A', 'B', 'C', 'D']
+      }));
     }
   });
 });
