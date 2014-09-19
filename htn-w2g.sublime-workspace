@@ -1,0 +1,233 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ques",
+				"questions"
+			],
+			[
+				"tran",
+				"transitionToRoute"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"paddi",
+				"padding-top"
+			],
+			[
+				"err",
+				"errors"
+			],
+			[
+				"Profi",
+				"ProfileWidget"
+			],
+			[
+				"vali",
+				"validations"
+			],
+			[
+				"temp",
+				"templateName"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 54.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/s5pan/Projects/htn-w2g"
+	],
+	"file_history":
+	[
+		"/home/s5pan/Projects/mygoals/app/public/templates/questions/questions.index.html",
+		"/home/s5pan/Projects/mygoals/app/public/js/routes/questionsRoute.coffee",
+		"/home/s5pan/Projects/mygoals/app/public/templates/questions/questions.new.html",
+		"/home/s5pan/Projects/mygoals/app/public/templates/questions/question.edit.html",
+		"/home/s5pan/Projects/mygoals/app/index.html",
+		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/sample-autoload.html",
+		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/sample.html",
+		"/home/s5pan/Projects/mygoals/app/public/css/main.css",
+		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/examples.html",
+		"/home/s5pan/Projects/mygoals/app/app.css",
+		"/home/s5pan/Projects/mygoals/app/app.html",
+		"/home/s5pan/Projects/fishbook/web/public/js/apps/indexApp.js",
+		"/home/s5pan/Projects/fishbook/web/public/js/views/widgets/profile.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/apps/indexApp.coffee",
+		"/home/s5pan/Projects/fishbook/web/pages/index.html",
+		"/home/s5pan/Projects/fishbook/web/public/js/widgets/profileWidget.coffee",
+		"/home/s5pan/Projects/fishbook/web/apis/imageApi.coffee",
+		"/home/s5pan/Projects/fishbook/web/apis/imageApi.js",
+		"/home/s5pan/Projects/fishbook/web/helpers/imager.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/linesRoute.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/entry.edit.htm",
+		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/entriesRoute.coffee",
+		"/home/s5pan/Projects/fishbook/web/apis/entriesApi.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/models/entry.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/entriesRoute.js",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/widgets/wiki.html",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/rods.htm",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/reels.htm",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/lines.htm",
+		"/home/s5pan/Projects/fishbook/web/public/templates/admin/tutorials.htm",
+		"/home/s5pan/Projects/fishbook/web/public/js/apps/adminApp.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/wikisRoute.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/libs/ehbs.coffee",
+		"/home/s5pan/Projects/fishbook/web/public/js/models/tutorial.coffee",
+		"/home/s5pan/Projects/fishbook/web/helpers/compiler.coffee",
+		"/home/s5pan/Projects/fishbook/web/helpers/compiler.js",
+		"/home/s5pan/.config/sublime-text-3/Packages/User/CoffeeScript.sublime-settings"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "htn-w2g.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 347.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
