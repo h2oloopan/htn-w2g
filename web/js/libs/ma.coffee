@@ -5,12 +5,12 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			console.log entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude
 
 	#algorithm
-	prepare (attractions) ->
+	prepare = (attractions) ->
 		result = {}
 		#remove duplication and classify by city
 		for attraction in attractions
 			do (a) ->
-				
+
 
 		return result
 
