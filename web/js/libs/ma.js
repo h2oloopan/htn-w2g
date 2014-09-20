@@ -15,6 +15,33 @@ define(['jquery'], function($) {
     });
   };
   return ma = {
+    mock: function() {
+      var fake;
+      fake = [
+        {
+          day: 1,
+          city: {
+            name: 'London',
+            address: 'London, United Kingdom',
+            photo: 'http://i.telegraph.co.uk/multimedia/archive/02423/london_2423609b.jpg'
+          },
+          attractions: [
+            {
+              name: 'London Eye',
+              duration: 2,
+              address: 'Riverside Bldg, County Hall Westminster Bridge Rd London SE1 7PB, United Kingdom',
+              photo: 'http://cdn.londonandpartners.com/asset/20adda9d08e8480c6dbbfcf30fbcabdb.jpg'
+            }, {
+              name: 'The National Gallery',
+              duration: 8,
+              address: 'Trafalgar Square London WC2N 5DN United Kingdom',
+              photo: 'http://ichef.bbci.co.uk/arts/yourpaintings/images/collections/main/NG_collection_image_1.jpg'
+            }
+          ]
+        }
+      ];
+      return fake;
+    },
     api: {
       ta: {
         location: function(id, option, cb) {
