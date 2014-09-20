@@ -48,21 +48,52 @@ define(['jquery', 'utils'], function($, utils) {
         option = null;
       }
       url = taUrl + '/location/' + id;
-      if (option != null) {
-        url += '/' + option;
+      if ((option != null) && option.type) {
+        url += '/' + option.type;
       }
       url += '?key=' + taKey;
+      if ((option != null) && option.subcategory) {
+        url += '&subcategory=' + option.subcategory;
+      }
+      if ((option != null) && option.limit) {
+        url += '&limit=' + option.limit;
+      }
+      if ((option != null) && option.offset) {
+        url += '&offset=' + option.offset;
+      }
       if (typeof localStorage !== "undefined" && localStorage !== null) {
         value = localStorage.getItem(url);
         if (value != null) {
-          return cb(value);
+          return cb(JSON.parse(value));
         }
       }
       return get(url, function(result) {
         if (typeof localStorage !== "undefined" && localStorage !== null) {
-          localStorage.setItem(url, result);
+          localStorage.setItem(url, JSON.stringify(result));
         }
         return cb(result);
+      });
+    },
+    taIds: function(coords, cb) {
+      return this.taMap(coords, function(result) {
+        var ancestors, city, country;
+        ancestors = result.data[0].ancestors;
+        city = ancestors[0];
+        country = ancestors[ancestors.length - 1];
+        return cb({
+          place: {
+            name: result.data[0].name,
+            id: result.data[0].location_id
+          },
+          city: {
+            name: city.name,
+            id: city.location_id
+          },
+          country: {
+            name: country.name,
+            id: country.location_id
+          }
+        });
       });
     },
     taMapBox: function(coords1, coords2, option, cb) {

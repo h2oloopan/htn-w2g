@@ -1,5 +1,15 @@
 define ['jquery', 'api', 'utils'], ($, api, utils) ->
+	#helper
+	test = (data) ->
+		for entry in data.data
+			console.log entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude
+
 	#algorithm
+	awesomify = (attractions, cb) ->
+		console.log 'attractions to deal with'
+		console.log attractions
+		return cb null
+
 	mystify = (list, days, cb) ->
 		console.log 'Something to mystify:'
 		console.log list
@@ -15,16 +25,37 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				#we are visiting multiple cities
 				start = list[keys[0]]
 				end = list[keys[1]]
-				api.taMapBox
+				todo = 4
+				attractions = []
+				api.taIds
 					lat: start.lat
 					lng: start.lng
-				,
+				, (result) ->
+					api.taLocation result.city.id, (result) ->
+						for item in result.data
+							attractions.push item
+						todo--
+						if todo == 0 then awesomify attractions
+					api.taLocation result.country.id, (result) ->
+						for item in result.data
+							attractions.push item
+						todo--
+						if todo == 0 then awesomify attractions
+
+				api.taIds
 					lat: end.lat
 					lng: end.lng
-				,
-					type: 'attractions' 
 				, (result) ->
-					console.log result
+					api.taLocation result.city.id, (result) ->
+						for item in result.data
+							attractions.push item
+						todo--
+						if todo == 0 then awesomify attractions
+					api.taLocation result.country.id, (result) ->
+						for item in result.data
+							attractions.push item
+						todo--
+						if todo == 0 then awesomify attractions
 
 		for key in keys
 			do (key) ->

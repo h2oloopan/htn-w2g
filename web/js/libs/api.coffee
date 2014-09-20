@@ -40,17 +40,37 @@ define ['jquery', 'utils'], ($, utils) ->
 				option = null
 			#options are 'attractions', 'hotels', 'restaurants'
 			url = taUrl + '/location/' + id
-			if option? then url += '/' + option
+			if option? && option.type then url += '/' + option.type
 			url += '?key=' + taKey
+			if option? && option.subcategory then url += '&subcategory=' + option.subcategory
+			if option? && option.limit then url += '&limit=' + option.limit
+			if option? && option.offset then url += '&offset=' + option.offset
 
 			if localStorage?
 				value = localStorage.getItem url
-				if value? then return cb value
+				if value? then return cb JSON.parse(value)
 
 			get url, (result) ->
 				if localStorage?
-					localStorage.setItem url, result
+					localStorage.setItem url, JSON.stringify result
 				cb result
+
+
+		taIds: (coords ,cb) ->
+			@taMap coords, (result) ->
+				ancestors = result.data[0].ancestors
+				city = ancestors[0]
+				country = ancestors[ancestors.length - 1]
+				return cb 
+					place:
+						name: result.data[0].name
+						id: result.data[0].location_id
+					city: 
+						name: city.name
+						id: city.location_id
+					country:
+						name: country.name
+						id: country.location_id
 
 
 		taMapBox: (coords1, coords2, option, cb) ->
