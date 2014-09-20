@@ -1,28 +1,189 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="#"><%= hello %></a>
+<!-- Preloader -->
+<div class="mask"><div id="loader"></div></div>
+<div id="main-container">
+	<a id="home-scroll"></a>
+	<div id="navigation">
+		<div class="row">
+			<div class="large-12 columns">
+				<nav class="top-bar" data-topbar>
+					<ul class="title-area">
+						<li>
+							<div id="logo">
+								<h1><a href="index.html"><i class="fa fa-dot-circle-o"></i> Where2go</a></h1>
+							</div>
+						</li>
+						<li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+					</ul>
+					<section class="top-bar-section">
+						<ul id="menu" class="right">
+							<li><a class="scroll" href="#home-scroll">Home</a></li>
+							<li><a class="scroll" href="#about-scroll">About</a></li>
+							<li><a class="scroll" href="#work-scroll">Advanced</a></li>
+						</ul>
+					</section>
+				</nav>
+			</div>
 		</div>
-		<div class="collapse navbar-collapse">
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
+	</div>
+	<section id="home">
+		<div id="home-slider">
+			<ul class="slides">
+				<li>
+					<div class="row">
+						<div class="large-12 columns text-center">
+							<div class="home-shrink">
+								<h1 class="display-h text-white">Where2go</h1>
+								<div class="hr large-1 small-3"></div>
+								<h5 class="text-white">Start your journey in seconds.</h5>
+								<!-- TEST FORM START-->
+								<form>
+									<div class = "simple-search">
+										<div class="row">
+											<div class="large-4 columns">
+												<input type="text" placeholder="Where do you want to start your journey?" />
+											</div>
+											<div class="large-4 columns">
+												<input type="text" placeholder="Where is your destination?" />
+											</div>
+											<div class="large-4 columns">
+												<input type="text" placeholder="How many days?" />
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- TEST FORM END -->
+							</div>
+						</div>
+					</div>
+					<img class="slider-bg" alt="slider" src="img/f1.jpg" />
+				</li>
+				<li>
+					<div class="row">
+						<div class="large-12 columns text-center">
+							<div class="home-shrink">
+								<h1 class="display-h text-white">Where2go</h1>
+								<div class="hr large-1 small-3"></div>
+								<h5 class="text-white">Blah Blah Blah Blah</h5>
+								<!-- TEST FORM START-->
+								<form>
+									<div class = "simple-search">
+										<div class="row">
+											<div class="large-4 columns">
+												<input type="text" placeholder="Where do you want to start your journey?" />
+											</div>
+											<div class="large-4 columns">
+												<input type="text" placeholder="Where is your destination?" />
+											</div>
+											<div class="large-4 columns">
+												<input type="text" placeholder="How many days?" />
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- TEST FORM END -->
+							</div>
+						</div>
+					</div>
+					<img class="slider-bg" alt="slider" src="img/f2.jpg" />
+				</li>
 			</ul>
-		</div><!--/.nav-collapse -->
-	</div>
-</div>
-<div class="container">
-	<div class="starter-template">
-		<h1>Underscore Template Example</h1>
-			<% _.each(list, function(item){%>
-				<p><%= item %></p>
-			<%});%>
-	</div>
-</div><!-- /.container -->
+			<div class="overlay"></div>
+		</div>
+	</section>
+	<a id="about-scroll"></a>
+	<section id="about" class="pad-large">
+		<div class="row">
+			<div class="large-12 columns">
+				<!-- Section Title -->
+				<div class="section-title">
+					<h2>About</h2>
+					<div class="separator size-small"><span></span></div>
+					<div class="sub-heading-text">Where2go is a blah blah blah.</div>
+				</div>
+				<div class="row centered-text">
+					<div class="medium-4 large-4 columns centered">
+						<span class="icon-wrap icon-with-bg fade"><i class="fa fa-laptop fa-4x fa-fw"></i></span>
+						<div class="iconbox-content fade">
+							<h5>Blah blah blah</h5>
+							<p>blah blah blah</p>
+						</div>
+					</div>
+					<div class="medium-4 large-4 columns">
+						<span class="icon-wrap icon-with-bg fade"><i class="fa fa-rocket fa-4x fa-fw"></i></span>
+						<div class="iconbox-content fade">
+							<h5>Simple Serch</h5>
+							<p>blah blah blah</p>
+						</div>
+					</div>
+					<div class="medium-4 large-4 columns">
+						<span class="icon-wrap icon-with-bg fade"><i class="fa fa-eye fa-4x fa-fw"></i></span>
+						<div class="iconbox-content fade">
+							<h5>Complex Serch</h5>
+							<p>blah blah blah.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="parallax-container" class="parallax-section" style="background-image: url('img/f3.jpg');" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="20">
+		<div class="has-bg-color">
+			<div class="row">
+				<div class="parallax-content small-centered columns fade">
+					<div class="alt-bg">
+						<p class="text-large light centered-text">Advanced Trip</p>
+						<!-- TEST FORM START-->
+						<form>
+							<div class = "advanced-search">
+								<div class = "advanced-search-row">
+									<div class="row">
+										<div class="large-6 columns">
+											<input type="text" placeholder="Where do you want to go?" />
+										</div>
+										<div class="large-6 columns">
+											<input type="text" placeholder="How many days?" />
+										</div>
+									</div>
+								</div>
+								<div class = "advanced-search-row">
+									<div class="row">
+										<div class="large-6 columns">
+											<input type="text" placeholder="Where do you want to go?" />
+										</div>
+										<div class="large-6 columns">
+											<input type="text" placeholder="How many days?" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<a id = "advance-add"><i class="fa fa-plus-circle fa-3x"></i></a>
+							<div class="row">
+								<div class="large-12 columns">
+									<label>Select Box
+										<select>
+											<option value="husker">Museum</option>
+											<option value="starbuck">Landscape</option>
+											<option value="hotdog">Culture</option>
+											<option value="apollo">Outdoor</option>
+										</select>
+									</label>
+								</div>
+							</div>
+							<div class="row">
+							</form>
+							<!-- TEST FORM END -->
+							<br/>
+							<p class="centered-text">
+							<a href="#" class="cherio-button cherio-button1 medium-button light">Plan My Trip</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<footer class="site-footer">
+			<div class="legal">
+				<p>&copy; Where2go s2014. All Rights Reserved.</p>
+			</div>
+		</footer>
+		</div><!-- end of Main Container-->

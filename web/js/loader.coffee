@@ -5,6 +5,7 @@ require.config
 		views: '../views'
 		router: '../router'
 		app: '../app'
+		vender: '../vendor'
 	shim:
 		'bootstrap': ['jquery']
 		'backbone': ['underscore', 'jquery']

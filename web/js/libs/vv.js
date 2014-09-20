@@ -1,4 +1,5 @@
-define(['jquery', 'flexslider', 'smooth-scroll', 'sscr', 'appear', 'isotope', 'prettyPhoto', 'maximage', 'bxslider', 'cycleall', 'waypoint', 'mediaelement-and-player', 'jquery.parallax', 'skrollr'], function() {
+define(['jquery', 'vendor/foundation', 'vendor/flexslider', 'vendor/smooth-scroll', 'vendor/sscr', 'vendor/appear', 'vendor/isotope', 'vendor/prettyPhoto',
+'vendor/maximage', 'vendor/bxslider', 'vendor/cycleall', 'vendor/waypoint', 'vendor/mediaelement-and-player', 'vendor/jquery.parallax', 'vendor/skrollr'], function() {
     function loader() {
     $("#loader").delay(500).fadeOut(), $(".mask").delay(1e3).fadeOut("slow")
 }
@@ -320,7 +321,7 @@ function googleMap() {
         d = new google.maps.InfoWindow({
             content: c
         }),
-        e = new google.maps.MarkerImage("assets/images/marker.png", new google.maps.Size(32, 37), new google.maps.Point(0, 0), new google.maps.Point(35, 20)),
+        e = new google.maps.MarkerImage("../../img/marker.png", new google.maps.Size(32, 37), new google.maps.Point(0, 0), new google.maps.Point(35, 20)),
         f = new google.maps.LatLng(45.738028, 21.224535),
         g = new google.maps.Marker({
             position: f,
@@ -340,16 +341,16 @@ function parallaxInit() {
 
 return vv = {
     work: function() {
+        $(document).foundation();
         $(document).ready(function () {
-    "use strict";
-    scrollNav(), mobileMenu(), heroSlider(), prettyphoto(), portfolio(), portfolioExpander(), animation(), bxslider(), mediaElements()
-}), $(window).load(function () {
-    "use strict";
-    portfolioIsotope(), loader(), projectExpand(), googleMap(), parallaxInit()
-}), $(window).scroll(function () {
-    "use strict";
-    showNav(), activateParallax()
-});
+            "use strict";
+            scrollNav(), mobileMenu(), heroSlider(), prettyphoto(), portfolio(), portfolioExpander(), animation(), bxslider(), mediaElements();
+            portfolioIsotope(), loader(), projectExpand(), parallaxInit();
+        }); 
+        $(window).scroll(function () {
+            "use strict";
+            showNav(), activateParallax()
+        });
     }
 }
 

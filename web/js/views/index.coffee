@@ -1,4 +1,4 @@
-define ['jquery', 'ma', 'text!templates/index.html'], ($, ma, template) ->
+define ['jquery', 'ma', 'vv', 'text!templates/index.html'], ($, ma, vv, template) ->
 	return IndexView = Backbone.View.extend
 		el: $('body')
 		test: ->
@@ -11,6 +11,5 @@ define ['jquery', 'ma', 'text!templates/index.html'], ($, ma, template) ->
 			###
 		render: ->
 			@test()
-			@$el.html _.template(template) 
-				hello: 'Hello Vera!'
-				list: ['A', 'B', 'C', 'D']
+			@$el.html _.template(template)({})
+			vv.work()
