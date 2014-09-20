@@ -1,6 +1,7 @@
 http = require 'http'
 server = require 'node-static'
-folder = new server.Server './'
+folder = new server.Server './',
+	cache: false
 
 
 http.createServer (req, res) ->

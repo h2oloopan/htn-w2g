@@ -7,10 +7,30 @@ define(['jquery', 'ma', 'vv', 'text!templates/index.html'], function($, ma, vv, 
       'click .btn-search': 'search'
     },
     render: function() {
-      this.test();
       this.$el.html(_.template(template)({}));
-      return vv.work();
+      vv.work();
+      return this.autocomplete();
     },
-    search: function() {}
+    autocomplete: function() {
+      var acEnd, acStart;
+      acStart = new google.maps.places.Autocomplete(document.getElementById('txt-start'), {
+        types: ['(cities)']
+      });
+      return acEnd = new google.maps.places.Autocomplete(document.getElementById('txt-end'), {
+        types: ['(cities)']
+      });
+    },
+    search: function() {
+      var form, input;
+      form = ma.serialize($('#form-search-simple'));
+      form.days = parseInt(form.days);
+      input = {
+        cities: [form.start, form.end],
+        days: form.days
+      };
+      return ma.search(input, function(result) {
+        return console.log(result);
+      });
+    }
   });
 });

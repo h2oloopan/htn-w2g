@@ -6,6 +6,7 @@ require.config
 		router: '../router'
 		app: '../app'
 		vender: '../vendor'
+		gPlaces: 'http://maps.googleapis.com/maps/api/js?libraries=places'
 	shim:
 		'bootstrap': ['jquery']
 		'backbone': ['underscore', 'jquery']

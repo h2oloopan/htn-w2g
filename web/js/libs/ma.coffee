@@ -2,6 +2,8 @@ define ['jquery'], ($) ->
 	#keys
 	taKey = '379b8b313eaf439d92c521e5fe64a8ce'
 	taUrl = 'http://api.tripadvisor.com/api/partner/2.0'
+	gKey = 'AIzaSyC-5SLDR76m00GGODHxQ6gXGYtB4sXmP2s'
+	geoUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 	#helpers
 	get = (url, done) ->
@@ -16,7 +18,32 @@ define ['jquery'], ($) ->
 			console.log c
 
 
+	geoCode = (list, cb) ->
+		keys = ma.keys list
+		total = keys.length
+		for key in keys
+			do (key) ->
+				item = list[key]
+				url = geoUrl + key + '&key=' + gKey
+				get url, (result) ->
+					location = result.results[0].geometry.location
+					list[key].lat = location.lat
+					list[key].lng = location.lng
+					total--
+					if total == 0 then cb list
+
+		return
+
 	return ma =
+		search: (input, cb) ->
+			list = {}
+			for city in input.cities
+				list[city] = 
+					address: city
+			geoCode list, (result) ->
+				console.log result 
+				return cb
+
 		keys: (obj) ->
 			if !Object.keys
                 func = (obj) ->
@@ -31,7 +58,7 @@ define ['jquery'], ($) ->
                 return func obj
             else
                 return Object.keys(obj)
-        serialize: (element, trim) ->
+		serialize: (element, trim) ->
         	if !trim?
                 trim = false
 
@@ -98,7 +125,7 @@ define ['jquery'], ($) ->
 						cb = option
 						option = null
 					#options are 'attractions', 'hotels', 'restaurants'
-					url = taUrl + '/map/' + coords.lat + ',' + coords.long
+					url = taUrl + '/map/' + coords.lat + ',' + coords.lng
 					if option? then url += '/' + option
 					url += '?key=' + taKey
 					get url, cb

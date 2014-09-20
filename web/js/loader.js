@@ -6,7 +6,8 @@ require.config({
     views: '../views',
     router: '../router',
     app: '../app',
-    vender: '../vendor'
+    vender: '../vendor',
+    gPlaces: 'http://maps.googleapis.com/maps/api/js?libraries=places'
   },
   shim: {
     'bootstrap': ['jquery'],
