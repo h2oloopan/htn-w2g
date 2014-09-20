@@ -31,8 +31,42 @@ define ['jquery'], ($) ->
 					list[key].lng = location.lng
 					total--
 					if total == 0 then cb list
-
 		return
+
+	 
+	taLocation = (id, option, cb) ->
+		if !cb?
+			cb = option
+			option = null
+
+
+		#options are 'attractions', 'hotels', 'restaurants'
+		url = taUrl + '/location/' + id
+		if option? then url += '/' + option
+		url += '?key=' + taKey
+
+		if localStorage?
+			value = localStorage.getItem url
+			if value? then cb(value)
+
+		get url, (result) ->
+			if localStorage?
+				localStorage.setItem url, result
+			cb result
+
+	taMap = (coords, option, cb) ->
+		if !cb?
+			cb = option
+			option = null
+		#options are 'attractions', 'hotels', 'restaurants'
+		url = taUrl + '/map/' + coords.lat + ',' + coords.lng
+		if option? then url += '/' + option
+		url += '?key=' + taKey
+		get url, cb
+
+
+	mystify = (list, days, cb) ->
+
 
 	return ma =
 		search: (input, cb) ->
@@ -41,8 +75,11 @@ define ['jquery'], ($) ->
 				list[city] = 
 					address: city
 			geoCode list, (result) ->
-				console.log result 
-				return cb
+				#now we have all the city in a list with their coords
+				#the algorithm is here
+				mystify result, input.days, (result) ->
+					console.log result
+					return cb result
 
 		keys: (obj) ->
 			if !Object.keys
@@ -109,23 +146,3 @@ define ['jquery'], ($) ->
 				}
 			]
 			return fake
-		api:
-			ta:
-				location: (id, option, cb) ->
-					if !cb?
-						cb = option
-						option = null
-					#options are 'attractions', 'hotels', 'restaurants'
-					url = taUrl + '/location/' + id
-					if option? then url += '/' + option
-					url += '?key=' + taKey
-					get url, cb
-				map: (coords, option, cb) ->
-					if !cb?
-						cb = option
-						option = null
-					#options are 'attractions', 'hotels', 'restaurants'
-					url = taUrl + '/map/' + coords.lat + ',' + coords.lng
-					if option? then url += '/' + option
-					url += '?key=' + taKey
-					get url, cb
