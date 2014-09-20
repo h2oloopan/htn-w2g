@@ -1,16 +1,26 @@
 define ['jquery', 'api', 'utils'], ($, api, utils) ->
 	#helper
 	test = (data) ->
-		for entry in data.data
+		for entry in data
 			console.log entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude
 
 	#algorithm
+	prepare (attractions) ->
+		result = {}
+		#remove duplication and classify by city
+		for attraction in attractions
+			do (a) ->
+				
+
+		return result
+
 	awesomify = (attractions, cb) ->
 		console.log 'attractions to deal with'
-		console.log attractions
+		input = prepare attractions
 		return cb null
 
 	mystify = (list, days, cb) ->
+		subcategories = 'landmarks'
 		console.log 'Something to mystify:'
 		console.log list
 		console.log days
@@ -31,31 +41,43 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 					lat: start.lat
 					lng: start.lng
 				, (result) ->
-					api.taLocation result.city.id, (result) ->
+					api.taLocation result.city.id, 
+						type: 'attractions'
+						subcategory: subcategories
+					, (result) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions
-					api.taLocation result.country.id, (result) ->
+						if todo == 0 then awesomify attractions, cb
+					api.taLocation result.country.id,
+						type: 'attractions'
+						subcategory: subcategories
+					, (result) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions
+						if todo == 0 then awesomify attractions, cb
 
 				api.taIds
 					lat: end.lat
 					lng: end.lng
 				, (result) ->
-					api.taLocation result.city.id, (result) ->
+					api.taLocation result.city.id,
+						type: 'attractions'
+						subcategory: subcategories
+					, (result) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions
-					api.taLocation result.country.id, (result) ->
+						if todo == 0 then awesomify attractions, cb
+					api.taLocation result.country.id,
+						type: 'attractions'
+						subcategory: subcategories
+					, (result) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions
+						if todo == 0 then awesomify attractions, cb
 
 		for key in keys
 			do (key) ->

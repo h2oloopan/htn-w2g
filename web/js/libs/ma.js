@@ -2,22 +2,33 @@
 define(['jquery', 'api', 'utils'], function($, api, utils) {
   var awesomify, ma, mystify, test;
   test = function(data) {
-    var entry, _i, _len, _ref, _results;
-    _ref = data.data;
+    var entry, _i, _len, _results;
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      entry = _ref[_i];
+    for (_i = 0, _len = data.length; _i < _len; _i++) {
+      entry = data[_i];
       _results.push(console.log(entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude));
     }
     return _results;
   };
+  prepare(function(attractions) {
+    var attraction, result, _fn, _i, _len;
+    result = {};
+    _fn = function(a) {};
+    for (_i = 0, _len = attractions.length; _i < _len; _i++) {
+      attraction = attractions[_i];
+      _fn(a);
+    }
+    return result;
+  });
   awesomify = function(attractions, cb) {
+    var input;
     console.log('attractions to deal with');
-    console.log(attractions);
+    input = prepare(attractions);
     return cb(null);
   };
   mystify = function(list, days, cb) {
-    var attractions, end, key, keys, number, output, start, todo, _fn, _i, _len;
+    var attractions, end, key, keys, number, output, start, subcategories, todo, _fn, _i, _len;
+    subcategories = 'landmarks';
     console.log('Something to mystify:');
     console.log(list);
     console.log(days);
@@ -36,7 +47,10 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
           lat: start.lat,
           lng: start.lng
         }, function(result) {
-          api.taLocation(result.city.id, function(result) {
+          api.taLocation(result.city.id, {
+            type: 'attractions',
+            subcategory: subcategories
+          }, function(result) {
             var item, _i, _len, _ref;
             _ref = result.data;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -45,10 +59,13 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
             }
             todo--;
             if (todo === 0) {
-              return awesomify(attractions);
+              return awesomify(attractions, cb);
             }
           });
-          return api.taLocation(result.country.id, function(result) {
+          return api.taLocation(result.country.id, {
+            type: 'attractions',
+            subcategory: subcategories
+          }, function(result) {
             var item, _i, _len, _ref;
             _ref = result.data;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -57,7 +74,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
             }
             todo--;
             if (todo === 0) {
-              return awesomify(attractions);
+              return awesomify(attractions, cb);
             }
           });
         });
@@ -65,7 +82,10 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
           lat: end.lat,
           lng: end.lng
         }, function(result) {
-          api.taLocation(result.city.id, function(result) {
+          api.taLocation(result.city.id, {
+            type: 'attractions',
+            subcategory: subcategories
+          }, function(result) {
             var item, _i, _len, _ref;
             _ref = result.data;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -74,10 +94,13 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
             }
             todo--;
             if (todo === 0) {
-              return awesomify(attractions);
+              return awesomify(attractions, cb);
             }
           });
-          return api.taLocation(result.country.id, function(result) {
+          return api.taLocation(result.country.id, {
+            type: 'attractions',
+            subcategory: subcategories
+          }, function(result) {
             var item, _i, _len, _ref;
             _ref = result.data;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -86,7 +109,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
             }
             todo--;
             if (todo === 0) {
-              return awesomify(attractions);
+              return awesomify(attractions, cb);
             }
           });
         });
