@@ -65,11 +65,11 @@ define ['jquery', 'utils'], ($, utils) ->
 
 			if localStorage?
 				value = localStorage.getItem url
-				if value? then return cb value
+				if value? then return cb JSON.parse(value)
 
 			get url, (result) ->
 				if localStorage?
-					localStorage.setItem url, result
+					localStorage.setItem url, JSON.stringify result
 				cb result
 
 		taMap: (coords, option, cb) ->
@@ -84,11 +84,11 @@ define ['jquery', 'utils'], ($, utils) ->
 
 			if localStorage?
 				value = localStorage.getItem url
-				if value? then return cb value
+				if value? then return cb JSON.parse(value)
 
 			get url, (result) ->
 				if localStorage?
-					localStorage.setItem url, result
+					localStorage.setItem url, JSON.stringify result
 				cb result
 
 

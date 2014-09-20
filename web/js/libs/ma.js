@@ -2,18 +2,41 @@
 define(['jquery', 'api', 'utils'], function($, api, utils) {
   var ma, mystify;
   mystify = function(list, days, cb) {
-    var key, keys, output, _fn, _i, _len;
+    var end, key, keys, number, output, start, _fn, _i, _len;
+    console.log('Something to mystify:');
+    console.log(list);
+    console.log(days);
     output = {};
     keys = utils.keys(list);
+    number = keys.length;
+    switch (number) {
+      case 1:
+        return;
+      default:
+        start = list[keys[0]];
+        end = list[keys[1]];
+        api.taMapBox({
+          lat: start.lat,
+          lng: start.lng
+        }, {
+          lat: end.lat,
+          lng: end.lng
+        }, {
+          type: 'attractions'
+        }, function(result) {
+          return console.log(result);
+        });
+    }
     _fn = function(key) {
-      var item;
-      item = list[key];
-      return api.taMap({
-        lat: item.lat,
-        lng: item.lng
-      }, 'attractions', function(result) {
-        return console.log(result);
-      });
+
+      /*
+      				item = list[key]
+      				api.taMap
+      					lat: item.lat
+      					lng: item.lng
+      				, 'attractions', (result) ->
+      					console.log result
+       */
     };
     for (_i = 0, _len = keys.length; _i < _len; _i++) {
       key = keys[_i];
@@ -47,18 +70,22 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       }
     },
     search: function(input, cb) {
-      var city, list, _i, _len, _ref;
+      var city, inserted, list, _i, _len, _ref;
       list = {};
+      inserted = [];
       _ref = input.cities;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         city = _ref[_i];
+        if (inserted.indexOf(city) >= 0) {
+          continue;
+        }
+        inserted.push(city);
         list[city] = {
           address: city
         };
       }
       return api.geoCode(list, function(result) {
         return mystify(result, input.days, function(result) {
-          console.log(result);
           return cb(result);
         });
       });

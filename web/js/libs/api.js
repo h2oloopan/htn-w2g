@@ -82,12 +82,12 @@ define(['jquery', 'utils'], function($, utils) {
       if (typeof localStorage !== "undefined" && localStorage !== null) {
         value = localStorage.getItem(url);
         if (value != null) {
-          return cb(value);
+          return cb(JSON.parse(value));
         }
       }
       return get(url, function(result) {
         if (typeof localStorage !== "undefined" && localStorage !== null) {
-          localStorage.setItem(url, result);
+          localStorage.setItem(url, JSON.stringify(result));
         }
         return cb(result);
       });
@@ -109,12 +109,12 @@ define(['jquery', 'utils'], function($, utils) {
       if (typeof localStorage !== "undefined" && localStorage !== null) {
         value = localStorage.getItem(url);
         if (value != null) {
-          return cb(value);
+          return cb(JSON.parse(value));
         }
       }
       return get(url, function(result) {
         if (typeof localStorage !== "undefined" && localStorage !== null) {
-          localStorage.setItem(url, result);
+          localStorage.setItem(url, JSON.stringify(result));
         }
         return cb(result);
       });
