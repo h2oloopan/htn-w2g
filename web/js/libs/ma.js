@@ -15,6 +15,64 @@ define(['jquery'], function($) {
     });
   };
   return ma = {
+    keys: function(obj) {
+      var func;
+      if (!Object.keys) {
+        func = function(obj) {
+          var hasOwnProperty, prop, result;
+          hasOwnProperty = Object.prototype.hasOwnProperty;
+          if (typeof obj !== 'object' && (typeof obj !== 'function' || obj === null)) {
+            throw new TypeError('Object.keys called on non-object');
+            return;
+          }
+          result = [];
+          for (prop in obj) {
+            if (hasOwnProperty.call(obj, prop)) {
+              result.push(prop);
+            }
+          }
+          return result;
+        };
+        return func(obj);
+      } else {
+        return Object.keys(obj);
+      }
+      return {
+        serialize: function(element, trim) {
+          var a, form, o;
+          if (trim == null) {
+            trim = false;
+          }
+          o = {};
+          if ($(element).is('form')) {
+            form = element;
+          } else {
+            form = $('<form></form>').append($(element).clone());
+          }
+          a = form.serializeArray();
+          $.each(a, function() {
+            var value;
+            if (o[this.name] !== void 0) {
+              if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+              }
+              value = this.value || '';
+              if (trim) {
+                value = $.trim(value);
+              }
+              return o[this.name].push(value);
+            } else {
+              value = this.value || '';
+              if (trim) {
+                value = $.trim(value);
+              }
+              return o[this.name] = value;
+            }
+          });
+          return o;
+        }
+      };
+    },
     mock: function() {
       var fake;
       fake = [

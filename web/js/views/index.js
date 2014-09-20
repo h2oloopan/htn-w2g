@@ -3,20 +3,14 @@ define(['jquery', 'ma', 'vv', 'text!templates/index.html'], function($, ma, vv, 
   var IndexView;
   return IndexView = Backbone.View.extend({
     el: $('body'),
-    test: function() {
-
-      /*
-      			ma.api.ta.map
-      				lat: '42.33141'
-      				long: '-71.099396'
-      			, (result) ->
-      				console.log result
-       */
+    events: {
+      'click .btn-search': 'search'
     },
     render: function() {
       this.test();
       this.$el.html(_.template(template)({}));
       return vv.work();
-    }
+    },
+    search: function() {}
   });
 });
