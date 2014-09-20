@@ -1,22 +1,61 @@
 define ['jquery', 'api', 'utils'], ($, api, utils) ->
 	#helper
+	mn = 
+		distance:
+			lat: 0.8
+			lng: 1.6
 	test = (data) ->
 		for entry in data
 			console.log entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude
 
 	#algorithm
-	prepare = (attractions) ->
-		result = {}
+	prepare = (stops, attractions) ->
+		cities = {}
+		ranks = []
+		ids = []
 		#remove duplication and classify by city
-		for attraction in attractions
-			do (a) ->
+		for a in attractions
+			id = a.location_id
+			if ids.indexOf(id) >= 0 then continue
+			ids.push id
+			city = a.ancestors[0].name
+			if !cities[city]? then cities[city] = []
+			
+			score = (a.percent_recommended * 1.0 / 100.0) * a.num_reviews * a.rating
+			a.score = score
+			cities[city].push a
+			ranks.push a
 
+		for key in utils.keys cities
+			cities[key].sort (a, b) ->
+				return b.score - a.score
 
+		ranks.sort (a, b) ->
+			return b.score - a.score
+
+		start = stops.start
+		end = stops.end
+
+		start_lat = if start.lat < end.lat then start.lat - mn.distance.lat else start.lat + mn.distance.lat
+		start_lng = if start.lng < end.lng then start.lng - mn.distance.lng else start.lng + mn.distance.lng
+		end_lat = if end.lat < start.lat then end.lat - mn.distance.lat else end.lat + mn.distance.lat
+		end_lng = if end.lng < start.lng then end.lng - mn.distance.lng else end.lng + mn.distance.lng
+
+		
+
+		result =
+			cities: cities
+			ranks: ranks
 		return result
 
-	awesomify = (attractions, cb) ->
+	awesomify = (stops, attractions, cb) ->
 		console.log 'attractions to deal with'
-		input = prepare attractions
+		data = prepare stops, attractions
+		console.log stops
+		console.log data
+		#deal with data here
+
+
 		return cb null
 
 	mystify = (list, days, cb) ->
@@ -48,7 +87,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions, cb
+						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
 					api.taLocation result.country.id,
 						type: 'attractions'
 						subcategory: subcategories
@@ -56,7 +95,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions, cb
+						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
 
 				api.taIds
 					lat: end.lat
@@ -69,7 +108,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions, cb
+						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
 					api.taLocation result.country.id,
 						type: 'attractions'
 						subcategory: subcategories
@@ -77,7 +116,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify attractions, cb
+						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
 
 		for key in keys
 			do (key) ->
@@ -114,6 +153,49 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				'Zoo & Aquarium': 'zoos_aquariums'
 				'Museums': 'museums'
 				'Cultural': 'cultural'
+			durations:
+				'Other': 5
+				'Nightlife': 4
+				'Shopping': 2
+				'Bar': 3
+				'Club': 3
+				'Food & Drink': 2
+				'Ranch Farm': 2
+				'Adventure': 4
+				'Gear Rental': 3
+				'Wellness & Spa': 3
+				'Class': 2
+				'Sightseeing Tour': 8
+				'Performance': 3
+				'Sport': 3
+				'Outdoor': 4
+				'Amusement': 4
+				'Landmark': 2
+				'Zoo & Aquarium': 3
+				'Museums': 6
+				'Cultural': 4
+			times:
+				'Other': 0
+				'Nightlife': 5
+				'Shopping': 3
+				'Bar': 4
+				'Club': 4
+				'Food & Drink': 4
+				'Ranch Farm': 2
+				'Adventure': 2
+				'Gear Rental': 2
+				'Wellness & Spa': 3
+				'Class': 2
+				'Sightseeing Tour': 1
+				'Performance': 5
+				'Sport': 5
+				'Outdoor': 2
+				'Amusement': 4
+				'Landmark': 2
+				'Zoo & Aquarium': 4
+				'Museums': 2
+				'Cultural': 2
+
 			
 		search: (input, cb) ->
 			list = {}
