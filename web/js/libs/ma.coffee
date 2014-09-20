@@ -1,126 +1,53 @@
-define ['jquery'], ($) ->
-	#keys
-	taKey = '379b8b313eaf439d92c521e5fe64a8ce'
-	taUrl = 'http://api.tripadvisor.com/api/partner/2.0'
-	gKey = 'AIzaSyC-5SLDR76m00GGODHxQ6gXGYtB4sXmP2s'
-	geoUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-
-	#helpers
-	get = (url, done) ->
-		$.ajax
-			type: 'GET'
-			url: url
-			dataType: 'json'
-		.done done
-		.fail (a, b, c) ->
-			console.log a
-			console.log b
-			console.log c
-
-
-	geoCode = (list, cb) ->
-		keys = ma.keys list
-		total = keys.length
+define ['jquery', 'api', 'utils'], ($, api, utils) ->
+	#algorithm
+	mystify = (list, days, cb) ->
+		output = {}
+		keys = utils.keys list
 		for key in keys
 			do (key) ->
 				item = list[key]
-				url = geoUrl + key + '&key=' + gKey
-				get url, (result) ->
-					location = result.results[0].geometry.location
-					list[key].lat = location.lat
-					list[key].lng = location.lng
-					total--
-					if total == 0 then cb list
-		return
+				api.taMap
+					lat: item.lat
+					lng: item.lng
+				, 'attractions', (result) ->
+					console.log result
 
-	 
-	taLocation = (id, option, cb) ->
-		if !cb?
-			cb = option
-			option = null
-
-
-		#options are 'attractions', 'hotels', 'restaurants'
-		url = taUrl + '/location/' + id
-		if option? then url += '/' + option
-		url += '?key=' + taKey
-
-		if localStorage?
-			value = localStorage.getItem url
-			if value? then cb(value)
-
-		get url, (result) ->
-			if localStorage?
-				localStorage.setItem url, result
-			cb result
-
-	taMap = (coords, option, cb) ->
-		if !cb?
-			cb = option
-			option = null
-		#options are 'attractions', 'hotels', 'restaurants'
-		url = taUrl + '/map/' + coords.lat + ',' + coords.lng
-		if option? then url += '/' + option
-		url += '?key=' + taKey
-		get url, cb
-
-
-	mystify = (list, days, cb) ->
-
-
+		return cb output
 	return ma =
+		attractions:
+			subcategories:
+				'Other': 'other'
+				'Nightlife': 'nightlife'
+				'Shopping': 'shopping'
+				'Bar': 'bars'
+				'Club': 'clubs'
+				'Food & Drink': 'food_drink'
+				'Ranch Farm': 'ranch_farm'
+				'Adventure': 'adventure'
+				'Gear Rental': 'gear_rentals'
+				'Wellness & Spa': 'wellness_spas'
+				'Class': 'classes'
+				'Sightseeing Tour': 'sightseeing_tours'
+				'Performance': 'performances'
+				'Sport': 'sports'
+				'Outdoor': 'outdoors'
+				'Amusement': 'amusement'
+				'Landmark': 'landmarks'
+				'Zoo & Aquarium': 'zoos_aquariums'
+				'Museums': 'museums'
+				'Cultural': 'cultural'
+			
 		search: (input, cb) ->
 			list = {}
 			for city in input.cities
 				list[city] = 
 					address: city
-			geoCode list, (result) ->
+			api.geoCode list, (result) ->
 				#now we have all the city in a list with their coords
 				#the algorithm is here
 				mystify result, input.days, (result) ->
 					console.log result
 					return cb result
-
-		keys: (obj) ->
-			if !Object.keys
-                func = (obj) ->
-                    hasOwnProperty = Object.prototype.hasOwnProperty
-                    if typeof obj != 'object' && (typeof obj != 'function' || obj == null)
-                        throw new TypeError('Object.keys called on non-object');
-                        return
-
-                    result = []
-                    result.push prop for prop of obj when hasOwnProperty.call obj, prop
-                    return result
-                return func obj
-            else
-                return Object.keys(obj)
-		serialize: (element, trim) ->
-        	if !trim?
-                trim = false
-
-            o = {}
-            if $(element).is 'form'
-                form = element
-            else
-                form = $('<form></form>').append $(element).clone()
-
-            a = form.serializeArray()
-            $.each a, ->
-                if o[@name] != undefined
-                    if !o[@name].push
-                        o[@name] = [o[@name]]
-                    value = @value || ''
-                    if trim
-                        value = $.trim value
-                    o[@name].push value
-                else
-                    value = @value || ''
-                    if trim
-                        value = $.trim value
-                    o[@name] = value
-
-            return o
 		mock: ->
 			fake = [
 				{

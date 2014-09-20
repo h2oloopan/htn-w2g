@@ -1,4 +1,4 @@
-define ['jquery', 'ma', 'vv', 'text!templates/index.html'], ($, ma, vv, template) ->
+define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html'], ($, ma, utils, vv, template) ->
 	return IndexView = Backbone.View.extend
 		el: $('body')
 		events:
@@ -14,7 +14,7 @@ define ['jquery', 'ma', 'vv', 'text!templates/index.html'], ($, ma, vv, template
 				types: ['(cities)']
 
 		search: ->
-			form = ma.serialize $('#form-search-simple')
+			form = utils.serialize $('#form-search-simple')
 			form.days = parseInt form.days
 			input =
 				cities: [form.start, form.end]
