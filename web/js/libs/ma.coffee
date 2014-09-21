@@ -2,11 +2,12 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 	#helper
 	mn = 
 		distance:
-			lat: 0.8
-			lng: 1.6
-		threshold: 5.0
+			lat: 1
+			lng: 2
+		threshold: 4.0
 		hours: 12
 		defaultDuration: 3
+		extraDay: 1
 
 	#algorithm
 	prepare = (stops, attractions) ->
@@ -68,12 +69,28 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		duration = 0
 		for name in names
 			attractions = data.cities[name]
-			duration = Math.round attractions.length / mn.threshold
+			find = false
+			if stops.list?
+				keys = utils.keys stops.list
+				for key in keys
+					if stops.list[key].name == name
+						duration = stops.list[key].stay
+						if !duration? then duration = Math.round attractions.length / mn.threshold
+						find = true
+						break
+				if !find then duration = Math.round attractions.length / mn.threshold
+			else
+				duration = Math.round attractions.length / mn.threshold
 			if duration == 0 then duration = 1
+
+			max = mn.extraDay + Math.round attractions.length / mn.threshold
+			if duration > max then duration = max
+
 			city =
 				name: name
 				duration: duration
 				address: attractions[0].location_string
+				must: find
 				score: 0
 				photo: ''
 				link: ''
@@ -102,7 +119,10 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				total += city.duration
 			return total
 
-		cities.pop() while cityDuration(cities) > days
+		for j in [0...cities.length]
+			if cityDuration(cities) <= days then break
+			p = cities.pop()
+			if p.must then cities.unshift p
 
 		#then list city from start to end
 		sortedCities = []

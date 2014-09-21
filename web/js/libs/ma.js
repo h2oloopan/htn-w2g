@@ -3,12 +3,13 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
   var awesomify, ma, mn, mystify, prepare;
   mn = {
     distance: {
-      lat: 0.8,
-      lng: 1.6
+      lat: 1,
+      lng: 2
     },
-    threshold: 5.0,
+    threshold: 4.0,
     hours: 12,
-    defaultDuration: 3
+    defaultDuration: 3,
+    extraDay: 1
   };
   prepare = function(stops, attractions) {
     var a, cities, city, end, end_lat, end_lng, id, ids, key, lat, lng, ranks, result, score, start, start_lat, start_lng, _i, _j, _len, _len1, _ref;
@@ -62,7 +63,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     return result;
   };
   awesomify = function(stops, attractions, cb) {
-    var attraction, cities, city, cityDuration, cost, currentHours, data, days, duration, end, endCity, inserted, lat, lng, name, names, sortedCities, start, startCity, totalHours, trip, _i, _j, _k, _len, _len1, _len2;
+    var attraction, cities, city, cityDuration, cost, currentHours, data, days, duration, end, endCity, find, inserted, j, key, keys, lat, lng, max, name, names, p, sortedCities, start, startCity, totalHours, trip, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _ref;
     console.log('attractions to deal with');
     data = prepare(stops, attractions);
     console.log(data);
@@ -76,14 +77,38 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     for (_i = 0, _len = names.length; _i < _len; _i++) {
       name = names[_i];
       attractions = data.cities[name];
-      duration = Math.round(attractions.length / mn.threshold);
+      find = false;
+      if (stops.list != null) {
+        keys = utils.keys(stops.list);
+        for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
+          key = keys[_j];
+          if (stops.list[key].name === name) {
+            duration = stops.list[key].stay;
+            if (duration == null) {
+              duration = Math.round(attractions.length / mn.threshold);
+            }
+            find = true;
+            break;
+          }
+        }
+        if (!find) {
+          duration = Math.round(attractions.length / mn.threshold);
+        }
+      } else {
+        duration = Math.round(attractions.length / mn.threshold);
+      }
       if (duration === 0) {
         duration = 1;
+      }
+      max = mn.extraDay + Math.round(attractions.length / mn.threshold);
+      if (duration > max) {
+        duration = max;
       }
       city = {
         name: name,
         duration: duration,
         address: attractions[0].location_string,
+        must: find,
         score: 0,
         photo: '',
         link: '',
@@ -91,8 +116,8 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       };
       totalHours = mn.hours * duration;
       currentHours = 0;
-      for (_j = 0, _len1 = attractions.length; _j < _len1; _j++) {
-        attraction = attractions[_j];
+      for (_k = 0, _len2 = attractions.length; _k < _len2; _k++) {
+        attraction = attractions[_k];
         cost = ma.attractions.durations[attraction.subcategory[1].name];
         if (cost == null) {
           cost = ma.attractions.durations[attraction.subcategory[0].name];
@@ -114,22 +139,28 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       return b.score - a.score;
     });
     cityDuration = function(cities) {
-      var total, _k, _len2;
+      var total, _l, _len3;
       total = 0;
-      for (_k = 0, _len2 = cities.length; _k < _len2; _k++) {
-        city = cities[_k];
+      for (_l = 0, _len3 = cities.length; _l < _len3; _l++) {
+        city = cities[_l];
         total += city.duration;
       }
       return total;
     };
-    while (cityDuration(cities) > days) {
-      cities.pop();
+    for (j = _l = 0, _ref = cities.length; 0 <= _ref ? _l < _ref : _l > _ref; j = 0 <= _ref ? ++_l : --_l) {
+      if (cityDuration(cities) <= days) {
+        break;
+      }
+      p = cities.pop();
+      if (p.must) {
+        cities.unshift(p);
+      }
     }
     sortedCities = [];
     startCity = null;
     endCity = null;
-    for (_k = 0, _len2 = cities.length; _k < _len2; _k++) {
-      city = cities[_k];
+    for (_m = 0, _len3 = cities.length; _m < _len3; _m++) {
+      city = cities[_m];
       lat = city.attractions[0].latitude;
       lng = city.attractions[0].longitude;
       if (city.name === start.name) {
