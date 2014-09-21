@@ -4,9 +4,8 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		distance:
 			lat: 0.8
 			lng: 1.6
-	test = (data) ->
-		for entry in data
-			console.log entry.address_obj.address_string + ' ' + entry.latitude + ' ' + entry.longitude
+		threshold: 5.0
+		hours: 12
 
 	#algorithm
 	prepare = (stops, attractions) ->
@@ -48,7 +47,6 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		ranks.sort (a, b) ->
 			return b.score - a.score
 
-
 		result =
 			cities: cities
 			ranks: ranks
@@ -57,12 +55,77 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 	awesomify = (stops, attractions, cb) ->
 		console.log 'attractions to deal with'
 		data = prepare stops, attractions
-		console.log stops
 		console.log data
-		#deal with data here
 
+		#algorithm handling
+		start = stops.start
+		end = stops.end
+		days = stops.days
+		cities = []
+		inserted = []
+		names = utils.keys data.cities
+		duration = 0
+		for name in names
+			attractions = data.cities[name]
+			duration = Math.round attractions.length / mn.threshold
+			if duration == 0 then duration = 1
+			city =
+				name: name
+				duration: duration
+				address: attractions[0].location_string
+				score: 0
+				photo: ''
+				link: ''
+				attractions: []
 
-		return cb null
+			totalHours = mn.hours * duration
+			currentHours = 0
+			for attraction in attractions
+				cost = ma.attractions.durations[attraction.subcategory[1].name]
+				if currentHours + cost > totalHours then break
+				attraction.duration = cost
+				city.attractions.push attraction
+				city.score += attraction.score
+
+			cities.push city
+
+		cities.sort (a, b) ->
+			return b.score - a.score
+
+		cityDuration = (cities) ->
+			total = 0
+			for city in cities
+				total += city.duration
+			return total
+
+		cities.pop() while cityDuration(cities) > days
+
+		#then list city from start to end
+		sortedCities = []
+		startCity = null
+		endCity = null
+		for city in cities
+			lat = city.attractions[0].latitude
+			lng = city.attractions[0].longitude
+			if city.name == start.name 
+				startCity = city
+				continue
+			else if city.name == end.name
+				endCity = city
+				continue
+			city.distance = (lat - start.lat) * (lat - start.lat) * (lng - start.lng) * (lng - start.lng)
+			sortedCities.push city
+
+		sortedCities.sort (a, b) ->
+			return a.distance - b.distance
+
+		sortedCities.unshift startCity
+		sortedCities.push endCity
+
+		trip = 
+			cities: sortedCities
+			ranks: data.ranks
+		return cb trip
 
 	mystify = (list, days, cb) ->
 		subcategories = 'landmarks'
@@ -93,7 +156,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
+						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
 					api.taLocation result.country.id,
 						type: 'attractions'
 						subcategory: subcategories
@@ -101,7 +164,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
+						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
 
 				api.taIds
 					lat: end.lat
@@ -114,7 +177,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
+						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
 					api.taLocation result.country.id,
 						type: 'attractions'
 						subcategory: subcategories
@@ -122,20 +185,8 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						for item in result.data
 							attractions.push item
 						todo--
-						if todo == 0 then awesomify {start: start, end: end}, attractions, cb
+						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
 
-		for key in keys
-			do (key) ->
-				###
-				item = list[key]
-				api.taMap
-					lat: item.lat
-					lng: item.lng
-				, 'attractions', (result) ->
-					console.log result
-				###
-
-		return cb output
 	return ma =
 		attractions:
 			subcategories:
@@ -160,47 +211,47 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				'Museums': 'museums'
 				'Cultural': 'cultural'
 			durations:
-				'Other': 5
-				'Nightlife': 4
-				'Shopping': 2
-				'Bar': 3
-				'Club': 3
-				'Food & Drink': 2
-				'Ranch Farm': 2
-				'Adventure': 4
-				'Gear Rental': 3
-				'Wellness & Spa': 3
-				'Class': 2
-				'Sightseeing Tour': 8
-				'Performance': 3
-				'Sport': 3
-				'Outdoor': 4
-				'Amusement': 4
-				'Landmark': 2
-				'Zoo & Aquarium': 3
-				'Museums': 6
-				'Cultural': 4
+				'other': 5
+				'nightlife': 5
+				'shopping': 4
+				'bars': 3
+				'clubs': 3
+				'food_drink': 2
+				'ranch_farm': 3
+				'adventure': 6
+				'gear_rentals': 3
+				'wellness_spas': 3
+				'class': 2
+				'sightseeing_tours': 8
+				'performances': 4
+				'sports': 4
+				'outdoors': 6
+				'amusement': 4
+				'landmarks': 3
+				'zoos_aquariums': 3
+				'museums': 6
+				'cultural': 4
 			times:
-				'Other': 0
-				'Nightlife': 5
-				'Shopping': 3
-				'Bar': 4
-				'Club': 4
-				'Food & Drink': 4
-				'Ranch Farm': 2
-				'Adventure': 2
-				'Gear Rental': 2
-				'Wellness & Spa': 3
-				'Class': 2
-				'Sightseeing Tour': 1
-				'Performance': 5
-				'Sport': 5
-				'Outdoor': 2
-				'Amusement': 4
-				'Landmark': 2
-				'Zoo & Aquarium': 4
-				'Museums': 2
-				'Cultural': 2
+				'other': 0
+				'nightlife': 5
+				'shopping': 3
+				'bars': 4
+				'clubs': 4
+				'food_drink': 4
+				'ranch_farm': 2
+				'adventure': 2
+				'gear_rentals': 2
+				'wellness_spas': 3
+				'classes': 2
+				'sightseeing_tours': 1
+				'performances': 5
+				'sports': 5
+				'outdoors': 2
+				'amusement': 4
+				'landmarks': 2
+				'zoos_aquariums': 4
+				'museums': 2
+				'cultural': 2
 
 			
 		search: (input, cb) ->
@@ -216,28 +267,3 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				#the algorithm is here
 				mystify result, input.days, (result) ->
 					return cb result
-		mock: ->
-			fake = [
-				{
-					day: 1
-					city:
-						name: 'London'
-						address: 'London, United Kingdom'
-						photo: 'http://i.telegraph.co.uk/multimedia/archive/02423/london_2423609b.jpg'
-					attractions: [
-						{
-							name: 'London Eye'
-							duration: 2
-							address: 'Riverside Bldg, County Hall Westminster Bridge Rd London SE1 7PB, United Kingdom'
-							photo: 'http://cdn.londonandpartners.com/asset/20adda9d08e8480c6dbbfcf30fbcabdb.jpg'
-						}
-						{
-							name: 'The National Gallery'
-							duration: 8
-							address: 'Trafalgar Square London WC2N 5DN United Kingdom'
-							photo: 'http://ichef.bbci.co.uk/arts/yourpaintings/images/collections/main/NG_collection_image_1.jpg'
-						}
-					]
-				}
-			]
-			return fake
