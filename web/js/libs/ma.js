@@ -116,7 +116,9 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       currentHours = 0;
       for (_k = 0, _len2 = attractions.length; _k < _len2; _k++) {
         attraction = attractions[_k];
-        cost = ma.attractions.durations[attraction.subcategory[1].name];
+        if (attraction.subcategory[1] != null) {
+          cost = ma.attractions.durations[attraction.subcategory[1].name];
+        }
         if (cost == null) {
           cost = ma.attractions.durations[attraction.subcategory[0].name];
         }

@@ -97,7 +97,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			totalHours = mn.hours * duration
 			currentHours = 0
 			for attraction in attractions
-				cost = ma.attractions.durations[attraction.subcategory[1].name]
+				if attraction.subcategory[1]? then cost = ma.attractions.durations[attraction.subcategory[1].name]
 				if !cost? then cost = ma.attractions.durations[attraction.subcategory[0].name]
 				if !cost? then cost = mn.defaultDuration
 				if currentHours + cost > totalHours then break
