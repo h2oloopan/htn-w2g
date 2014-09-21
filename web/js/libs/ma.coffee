@@ -13,10 +13,25 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		cities = {}
 		ranks = []
 		ids = []
+		start = stops.start
+		end = stops.end
+		start_lat = if start.lat < end.lat then start.lat - mn.distance.lat else start.lat + mn.distance.lat
+		start_lng = if start.lng < end.lng then start.lng - mn.distance.lng else start.lng + mn.distance.lng
+		end_lat = if end.lat < start.lat then end.lat - mn.distance.lat else end.lat + mn.distance.lat
+		end_lng = if end.lng < start.lng then end.lng - mn.distance.lng else end.lng + mn.distance.lng
 		#remove duplication and classify by city
+
+
 		for a in attractions
 			id = a.location_id
 			if ids.indexOf(id) >= 0 then continue
+
+			#continue if out of boundaries
+			lat = a.latitude
+			lng = a.longitude
+			if !(start_lat <= lat && lat <= end_lat || start_lat >= lat && lat >= end_lat) then continue
+			if !(start_lng <= lng && lng <= end_lng || start_lng >= lng && lng >= end_lng) then continue
+
 			ids.push id
 			city = a.ancestors[0].name
 			if !cities[city]? then cities[city] = []
@@ -33,15 +48,6 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		ranks.sort (a, b) ->
 			return b.score - a.score
 
-		start = stops.start
-		end = stops.end
-
-		start_lat = if start.lat < end.lat then start.lat - mn.distance.lat else start.lat + mn.distance.lat
-		start_lng = if start.lng < end.lng then start.lng - mn.distance.lng else start.lng + mn.distance.lng
-		end_lat = if end.lat < start.lat then end.lat - mn.distance.lat else end.lat + mn.distance.lat
-		end_lng = if end.lng < start.lng then end.lng - mn.distance.lng else end.lng + mn.distance.lng
-
-		
 
 		result =
 			cities: cities
