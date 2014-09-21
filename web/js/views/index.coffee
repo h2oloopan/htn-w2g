@@ -47,8 +47,9 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 			input =
 				cities: [form.start, form.end]
 				days: form.days
-			ma.search input, (result) ->
+			ma.search input, (id) ->
 				#do nothing
-				console.log result
+				window.location.href = '#result/' + id
+				
 			return false
 

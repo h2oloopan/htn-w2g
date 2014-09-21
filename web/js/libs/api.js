@@ -31,7 +31,7 @@ define(['jquery', 'utils'], function($, utils) {
     });
   };
   return api = {
-    saveTrip: function(trip) {
+    saveTrip: function(trip, cb) {
       var city, k, key, keys, toSend, url, _i, _j, _len, _len1, _ref;
       toSend = {
         trip: trip
@@ -48,10 +48,10 @@ define(['jquery', 'utils'], function($, utils) {
       }
       url = 'http://w2g.venture.social/api/user/sync';
       return post(url, toSend, function(result) {
-        console.log('SERVER');
-        return console.log(result);
+        return cb(result.id);
       });
     },
+    recoverTrip: function(str) {},
     getPhoto: function(name, address, cb) {
       var map, service;
       map = new google.maps.Map($('<div></div>')[0], {});

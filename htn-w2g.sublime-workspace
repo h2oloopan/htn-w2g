@@ -23,6 +23,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "web/js/libs/api.coffee",
+			"settings":
+			{
+				"buffer_size": 4237,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -63,8 +71,20 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/Users/shengyingpan/Projects/htn-w2g",
+		"/Users/shengyingpan/Projects/htn-w2g/web",
+		"/Users/shengyingpan/Projects/htn-w2g/web/js",
+		"/Users/shengyingpan/Projects/htn-w2g/web/js/libs",
+		"/Users/shengyingpan/Projects/htn-w2g/web/js/views"
+	],
 	"file_history":
 	[
+		"/Users/shengyingpan/Projects/htn-w2g/web/js/libs/ma.coffee",
+		"/Users/shengyingpan/Projects/htn-w2g/web/index.html",
+		"/Users/shengyingpan/Projects/htn-w2g/web/js/libs/api.coffee",
+		"/Users/shengyingpan/Projects/htn-w2g/web/js/views/index.coffee",
 		"/Users/VV/Library/Application Support/Sublime Text 3/Packages/Better CoffeeScript/CoffeeScript.sublime-settings",
 		"/Users/VV/Documents/Development/php-getting-started/web/test.php",
 		"/Users/VV/Documents/Development/php-getting-started/web/index.php",
@@ -100,6 +120,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"post",
 			"hackathon",
 			"photography",
 			"work",
@@ -150,8 +171,38 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "web/js/libs/api.coffee",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4237,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Better CoffeeScript/CoffeeScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -220,6 +271,7 @@
 		],
 		"width": 0.0
 	},
+	"selected_group": 0,
 	"settings":
 	{
 	},

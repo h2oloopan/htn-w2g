@@ -370,10 +370,15 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
           }
         }
         return mystify(result, input.days, options, function(result) {
-          api.saveTrip(result.cities);
-          return cb(result);
+          return api.saveTrip(result.cities, function(id) {
+            localStorage.setItem(id, JSON.stringify(result));
+            return cb(id);
+          });
         });
       });
+    },
+    load: function(id) {
+      return JSON.parse(localStorage.getItem(id));
     }
   };
 });

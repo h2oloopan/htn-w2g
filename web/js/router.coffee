@@ -3,14 +3,14 @@ define [], () ->
 		currentView: null
 		routes:
 			'': 'index'
-			'result': 'result'
-		change: (view) ->
+			'result/:id': 'result'
+		change: (view, options) ->
 			if @currentView?
 				@currentView.undelegateEvents()
 
 			thiz = @
 			require [view], (View) ->
-				next = new View()
+				next = new View options
 				thiz.currentView = next
 				thiz.currentView.render()
 
@@ -18,5 +18,7 @@ define [], () ->
 		index: ->
 			@change 'views/index'
 
-		result: ->
-			@change 'views/result'
+		result: (id)->
+			data = JSON.parse localStorage.getItem(id)
+			@change 'views/result',
+				data: data

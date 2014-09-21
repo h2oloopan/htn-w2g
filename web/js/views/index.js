@@ -68,8 +68,8 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
         cities: [form.start, form.end],
         days: form.days
       };
-      ma.search(input, function(result) {
-        return console.log(result);
+      ma.search(input, function(id) {
+        return window.location.href = '#result/' + id;
       });
       return false;
     }

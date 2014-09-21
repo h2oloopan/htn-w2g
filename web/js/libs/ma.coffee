@@ -291,5 +291,13 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						result[key].stay = options.stays[counter]
 						counter++
 				mystify result, input.days, options, (result) ->
-					api.saveTrip result.cities
-					return cb result
+					api.saveTrip result.cities, (id) ->
+						localStorage.setItem id, JSON.stringify result
+						cb id
+		load: (id) ->
+			return JSON.parse localStorage.getItem(id)
+
+
+
+
+

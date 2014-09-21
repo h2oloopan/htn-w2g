@@ -31,7 +31,7 @@ define ['jquery', 'utils'], ($, utils) ->
 			console.log c
 
 	return api =
-		saveTrip: (trip) ->
+		saveTrip: (trip, cb) ->
 			toSend = 
 				trip: trip
 
@@ -44,8 +44,10 @@ define ['jquery', 'utils'], ($, utils) ->
 
 			url = 'http://w2g.venture.social/api/user/sync'
 			post url, toSend, (result) ->
-				console.log 'SERVER'
-				console.log result
+				cb result.id
+
+		recoverTrip: (str) ->
+
 
 
 		getPhoto: (name, address, cb) ->
