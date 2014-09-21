@@ -32,9 +32,9 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 				stays: stays
 				days: days
 				preferences: form.preference
-			ma.search input, (result) ->
+			ma.search input, (id) ->
 				#do nothing
-				console.log result
+				window.location.href = '#result/' + id
 			return false
 		advanceAdd: ->
 			$('.advanced-search').append template_advance
@@ -50,6 +50,5 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 			ma.search input, (id) ->
 				#do nothing
 				window.location.href = '#result/' + id
-				
 			return false
 

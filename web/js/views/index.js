@@ -47,8 +47,8 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
         days: days,
         preferences: form.preference
       };
-      ma.search(input, function(result) {
-        return console.log(result);
+      ma.search(input, function(id) {
+        return window.location.href = '#result/' + id;
       });
       return false;
     },
