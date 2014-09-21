@@ -6,7 +6,7 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
     events: {
       'click .simple-search-submit': 'search',
       'click #advance-add': 'advanceAdd',
-      'click .btn-test': 'test'
+      'click .btn-advance-submit': 'advanceSearch'
     },
     render: function() {
       this.$el.html(_.template(template)({
@@ -24,9 +24,9 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
         types: ['(cities)']
       });
     },
-    test: function() {
+    advanceSearch: function() {
       var form;
-      form = utils.serialize($('.preference'));
+      form = utils.serialize($('.advanced-search-form'));
       alert(JSON.stringify(form));
       return false;
     },
