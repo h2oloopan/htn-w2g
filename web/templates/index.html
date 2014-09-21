@@ -1,4 +1,4 @@
-<!-- Preloader -->
+ Preloader -->
 <div class="mask"><div id="loader"></div></div>
 <div id="main-container">
 	<a id="home-scroll"></a>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<section id="home">
-		<form id="form-search-simple">
+		<form id="form-search-simple" style = "position:absolute; width:100%; margin: 0 auto; top:66%; z-index:1000;">
 			<div class = "simple-search">
 				<div class="row">
 					<div class="large-4 columns">
@@ -39,9 +39,10 @@
 						<input value="5" type="text" name="days" id="txt-days" placeholder="How many days?" />
 					</div>
 				</div>
-				<div class="row">
-					<a class="btn btn-success btn-search">Search!</a>
-				</div>
+				</br>
+				<p class="centered-text" style = "margin:10px;">
+				<a href="#" class="cherio-button cherio-button1 medium-button light">Plan My Trip</a>
+				</p>
 			</div>
 		</form>
 		<div id="home-slider">
@@ -117,7 +118,8 @@
 					<div class="alt-bg">
 						<p class="text-large light centered-text">Advanced Trip</p>
 						<!-- TEST FORM START-->
-						<form>
+						</br>
+						<form class = "custom">
 							<div class = "advanced-search">
 								<div class = "advanced-search-row">
 									<div class="row">
@@ -153,21 +155,45 @@
 									</label>
 								</div>
 							</div>
-							<div class="row">
-							</form>
-							<!-- TEST FORM END -->
-							<br/>
-							<p class="centered-text">
-							<a href="#" class="cherio-button cherio-button1 medium-button light">Plan My Trip</a>
-							</p>
-						</div>
+							<div class = "testarea" style = "height:500px; background-color: rgba(255, 255, 255, 0.7);">
+								<div class="row">
+									<div class="large-12 columns div-test">
+										<label>Preference</label>
+										<!--
+										<% _.each(subcategories, function(key, value){ %>
+											<p><%= key %> <%= value %></p>
+										<%	}); %>
+										-->
+										
+										<!-- <input id="checkbox1" type="checkbox" value="nightlife" name="what"><label for="checkbox1">Checkbox 1</label>
+										<input id="checkbox2" type="checkbox" value="gear_rentals" name="what"><label for="checkbox2">Checkbox 2</label> -->
+
+										<% _.each(subcategories, function(key, value){ %>
+
+
+										<input id="checkbox1" type="checkbox" value="<%= key %>" name="preference"><label for="checkbox1"> <%= value %></label>
+
+										<%	}); %>
+
+										</br>
+										<button class="btn-test">TEST</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- TEST FORM END -->
+						<br/>
+						<p class="centered-text">
+						<a href="#" class="cherio-button cherio-button1 medium-button light">Plan My Trip</a>
+						</p>
 					</div>
 				</div>
 			</div>
-		</section>
-		<footer class="site-footer">
-			<div class="legal">
-				<p>&copy; Where2go s2014. All Rights Reserved.</p>
-			</div>
-		</footer>
-		</div><!-- end of Main Container-->
+		</div>
+	</section>
+	<footer class="site-footer">
+		<div class="legal">
+			<p>&copy; Where2go s2014. All Rights Reserved.</p>
+		</div>
+	</footer>
+	</div><!-- end of Main Container
