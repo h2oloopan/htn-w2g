@@ -291,4 +291,5 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						result[key].stay = options.stays[counter]
 						counter++
 				mystify result, input.days, options, (result) ->
+					api.saveTrip result.cities
 					return cb result

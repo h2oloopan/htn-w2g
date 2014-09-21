@@ -17,11 +17,13 @@ define(['jquery', 'utils'], function($, utils) {
       return console.log(c);
     });
   };
-  post = function(url, done) {
+  post = function(url, data, done) {
     return $.ajax({
       type: 'POST',
       url: url,
-      dataType: 'json'
+      data: JSON.stringify(data),
+      dataType: 'json',
+      contentType: 'application/json'
     }).done(done).fail(function(a, b, c) {
       console.log(a);
       console.log(b);
@@ -29,8 +31,26 @@ define(['jquery', 'utils'], function($, utils) {
     });
   };
   return api = {
-    addTrip: function(trip) {
-      return false;
+    saveTrip: function(trip) {
+      var city, k, key, keys, toSend, url, _i, _j, _len, _len1, _ref;
+      toSend = {
+        trip: trip
+      };
+      keys = utils.keys(toSend.trip);
+      for (_i = 0, _len = keys.length; _i < _len; _i++) {
+        key = keys[_i];
+        city = toSend.trip[key];
+        _ref = utils.keys(city.attractions);
+        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+          k = _ref[_j];
+          city.attractions[k] = JSON.stringify(city.attractions[k]);
+        }
+      }
+      url = 'http://w2g.venture.social/api/user/sync';
+      return post(url, toSend, function(result) {
+        console.log('SERVER');
+        return console.log(result);
+      });
     },
     getPhoto: function(name, address, cb) {
       var map, service;

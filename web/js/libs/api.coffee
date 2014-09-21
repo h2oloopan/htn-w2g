@@ -17,11 +17,13 @@ define ['jquery', 'utils'], ($, utils) ->
 			console.log b
 			console.log c
 
-	post = (url, done) ->
+	post = (url, data, done) ->
 		$.ajax
 			type: 'POST'
 			url: url
+			data: JSON.stringify data
 			dataType: 'json'
+			contentType: 'application/json'
 		.done done
 		.fail (a, b, c) ->
 			console.log a
@@ -29,8 +31,22 @@ define ['jquery', 'utils'], ($, utils) ->
 			console.log c
 
 	return api =
-		addTrip: (trip) ->
-			return false
+		saveTrip: (trip) ->
+			toSend = 
+				trip: trip
+
+			#stringify
+			keys = utils.keys toSend.trip
+			for key in keys
+				city = toSend.trip[key]
+				for k in utils.keys city.attractions
+					city.attractions[k] = JSON.stringify city.attractions[k]
+
+			url = 'http://w2g.venture.social/api/user/sync'
+			post url, toSend, (result) ->
+				console.log 'SERVER'
+				console.log result
+
 
 		getPhoto: (name, address, cb) ->
 			map = new google.maps.Map $('<div></div>')[0], {}
