@@ -17,14 +17,28 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     return _results;
   };
   prepare = function(stops, attractions) {
-    var a, cities, city, end, end_lat, end_lng, id, ids, key, ranks, result, score, start, start_lat, start_lng, _i, _j, _len, _len1, _ref;
+    var a, cities, city, end, end_lat, end_lng, id, ids, key, lat, lng, ranks, result, score, start, start_lat, start_lng, _i, _j, _len, _len1, _ref;
     cities = {};
     ranks = [];
     ids = [];
+    start = stops.start;
+    end = stops.end;
+    start_lat = start.lat < end.lat ? start.lat - mn.distance.lat : start.lat + mn.distance.lat;
+    start_lng = start.lng < end.lng ? start.lng - mn.distance.lng : start.lng + mn.distance.lng;
+    end_lat = end.lat < start.lat ? end.lat - mn.distance.lat : end.lat + mn.distance.lat;
+    end_lng = end.lng < start.lng ? end.lng - mn.distance.lng : end.lng + mn.distance.lng;
     for (_i = 0, _len = attractions.length; _i < _len; _i++) {
       a = attractions[_i];
       id = a.location_id;
       if (ids.indexOf(id) >= 0) {
+        continue;
+      }
+      lat = a.latitude;
+      lng = a.longitude;
+      if (!(start_lat <= lat && lat <= end_lat || start_lat >= lat && lat >= end_lat)) {
+        continue;
+      }
+      if (!(start_lng <= lng && lng <= end_lng || start_lng >= lng && lng >= end_lng)) {
         continue;
       }
       ids.push(id);
@@ -47,12 +61,6 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     ranks.sort(function(a, b) {
       return b.score - a.score;
     });
-    start = stops.start;
-    end = stops.end;
-    start_lat = start.lat < end.lat ? start.lat - mn.distance.lat : start.lat + mn.distance.lat;
-    start_lng = start.lng < end.lng ? start.lng - mn.distance.lng : start.lng + mn.distance.lng;
-    end_lat = end.lat < start.lat ? end.lat - mn.distance.lat : end.lat + mn.distance.lat;
-    end_lng = end.lng < start.lng ? end.lng - mn.distance.lng : end.lng + mn.distance.lng;
     result = {
       cities: cities,
       ranks: ranks
