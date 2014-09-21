@@ -1,3 +1,9 @@
+.attraction{
+  height:160px;
+  width:160px;
+  border-radius: 100px;
+}
+
 #form-search-simple{
   position:absolute;
   width:100%;
@@ -13,8 +19,8 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-body {
-	padding-top: 50px;
+body {/*
+	padding-top: 50px;*/
   min-height: 800px;
 }
 
