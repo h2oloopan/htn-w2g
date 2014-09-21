@@ -293,6 +293,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				mystify result, input.days, options, (result) ->
 					api.saveTrip result.cities, (id) ->
 						localStorage.setItem id, JSON.stringify result
+						console.log result
 						cb id
 		load: (id) ->
 			return JSON.parse localStorage.getItem(id)

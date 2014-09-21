@@ -372,6 +372,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
         return mystify(result, input.days, options, function(result) {
           return api.saveTrip(result.cities, function(id) {
             localStorage.setItem(id, JSON.stringify(result));
+            console.log(result);
             return cb(id);
           });
         });
