@@ -110,8 +110,6 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
         address: attractions[0].location_string,
         must: find,
         score: 0,
-        photo: '',
-        link: '',
         attractions: []
       };
       totalHours = mn.hours * duration;

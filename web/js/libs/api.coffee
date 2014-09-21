@@ -4,6 +4,7 @@ define ['jquery', 'utils'], ($, utils) ->
 	taUrl = 'http://api.tripadvisor.com/api/partner/2.0'
 	gKey = 'AIzaSyC-5SLDR76m00GGODHxQ6gXGYtB4sXmP2s'
 	geoUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+	textUrl = 'https://maps.googleapis.com/maps/api/place/textsearch/json?'
 
 	get = (url, done) ->
 		$.ajax
@@ -30,6 +31,21 @@ define ['jquery', 'utils'], ($, utils) ->
 	return api =
 		addTrip: (trip) ->
 			return false
+
+		getPhoto: (name, address, cb) ->
+			map = new google.maps.Map $('<div></div>')[0], {}
+			service = new google.maps.places.PlacesService map
+			service.textSearch
+				query: name + ' ' + address
+			, (result) ->
+				pid = result[0].place_id
+				service.getDetails
+					placeId: pid
+				, (result) ->
+					url = result.photos[0].getUrl()
+					cb url
+
+
 
 		#awesome stuff is happening here
 		geoCode: (list, cb) ->
