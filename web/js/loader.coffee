@@ -8,9 +8,9 @@ require.config
 		vender: '../vendor'
 		gPlaces: 'http://maps.googleapis.com/maps/api/js?libraries=places'
 	shim:
-		'bootstrap': ['jquery']
+		#'bootstrap': ['jquery']
 		'backbone': ['underscore', 'jquery']
-		'app': ['backbone', 'bootstrap']
+		'app': ['backbone']#, 'bootstrap']
 
 require ['app'], (app) ->
 	app.initialize()

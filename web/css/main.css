@@ -1,5 +1,8 @@
+
+
 body {
 	padding-top: 50px;
+  min-height: 800px;
 }
 
 .starter-template {
@@ -101,9 +104,9 @@ ul {
   float: left!important;
 }
 
-input {
+/*input {
   -webkit-appearance: none;
-}
+}*/
 
 .page-header {
   text-align: center;
