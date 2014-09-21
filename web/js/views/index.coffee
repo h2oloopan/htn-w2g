@@ -3,7 +3,7 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 	return IndexView = Backbone.View.extend
 		el: $('body')
 		events:
-			'click .btn-search': 'search'
+			'click .simple-search-submit': 'search'
 			'click #advance-add': 'advanceAdd'
 			'click .btn-test': 'test'
 		render: ->
@@ -16,7 +16,7 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 			acEnd = new google.maps.places.Autocomplete document.getElementById('txt-end'),
 				types: ['(cities)']
 		test: ->
-			form = utils.serialize $('.div-test')
+			form = utils.serialize $('.preference')
 			alert JSON.stringify form
 			return false
 		advanceAdd: ->

@@ -4,7 +4,7 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
   return IndexView = Backbone.View.extend({
     el: $('body'),
     events: {
-      'click .btn-search': 'search',
+      'click .simple-search-submit': 'search',
       'click #advance-add': 'advanceAdd',
       'click .btn-test': 'test'
     },
@@ -26,7 +26,7 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
     },
     test: function() {
       var form;
-      form = utils.serialize($('.div-test'));
+      form = utils.serialize($('.preference'));
       alert(JSON.stringify(form));
       return false;
     },
