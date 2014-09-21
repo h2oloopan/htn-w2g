@@ -156,15 +156,13 @@
 											<p><%= key %> <%= value %></p>
 										<%	}); %>
 										-->
-										
-										<!-- <input id="checkbox1" type="checkbox" value="nightlife" name="what"><label for="checkbox1">Checkbox 1</label>
-										<input id="checkbox2" type="checkbox" value="gear_rentals" name="what"><label for="checkbox2">Checkbox 2</label> -->
+
 
 										<% _.each(subcategories, function(key, value){ %>
 
 
 										<div class="large-3 medium-4 small-6 columns preference-item" style = "text-align:left;">
-										<input id="checkbox1" type="checkbox" value="<%= key %>" name="preference"><label for="checkbox1"> <%= value %></label></div>
+										<input id="<%= key %>" type="checkbox" value="<%= key %>" name="preference"><label for="<%= key %>"> <%= value %></label></div>
 
 										<%	}); %>
 
