@@ -4,36 +4,20 @@
 		"selected_items":
 		[
 			[
-				"ques",
-				"questions"
+				"Info",
+				"additionalInfo"
 			],
 			[
-				"tran",
-				"transitionToRoute"
+				"font",
+				"font-size"
 			],
 			[
-				"padd",
-				"padding-bottom"
+				"tex",
+				"text-align"
 			],
 			[
-				"paddi",
-				"padding-top"
-			],
-			[
-				"err",
-				"errors"
-			],
-			[
-				"Profi",
-				"ProfileWidget"
-			],
-			[
-				"vali",
-				"validations"
-			],
-			[
-				"temp",
-				"templateName"
+				"sli",
+				"slider"
 			]
 		]
 	},
@@ -43,11 +27,15 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 54.0,
+		"height": 47.0,
 		"selected_items":
 		[
 			[
 				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
 				"Package Control: Install Package"
 			]
 		],
@@ -55,9 +43,14 @@
 	},
 	"console":
 	{
-		"height": 139.0,
+		"height": 126.0,
 		"history":
 		[
+			"source.scss meta.property-list.css.sass - variable.other.value",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib2,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), 'wb' ).write(by) if dh == h else None; print('Error validating download (got %s instead of %s), please try manual install' % (dh, h) if dh != h else 'Please restart Sublime Text to finish installation')",
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib2,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), 'wb' ).write(by) if dh == h else None; print('Error validating download (got %s instead of %s), please try manual install' % (dh, h) if dh != h else 'Please restart Sublime Text to finish installation')",
 			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
 		]
 	},
@@ -70,53 +63,30 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/home/s5pan/Projects/htn-w2g"
-	],
 	"file_history":
 	[
-		"/home/s5pan/Projects/mygoals/app/public/templates/questions/questions.index.html",
-		"/home/s5pan/Projects/mygoals/app/public/js/routes/questionsRoute.coffee",
-		"/home/s5pan/Projects/mygoals/app/public/templates/questions/questions.new.html",
-		"/home/s5pan/Projects/mygoals/app/public/templates/questions/question.edit.html",
-		"/home/s5pan/Projects/mygoals/app/index.html",
-		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/sample-autoload.html",
-		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/sample.html",
-		"/home/s5pan/Projects/mygoals/app/public/css/main.css",
-		"/home/s5pan/Projects/mygoals/app/public/js/MathJax/test/examples.html",
-		"/home/s5pan/Projects/mygoals/app/app.css",
-		"/home/s5pan/Projects/mygoals/app/app.html",
-		"/home/s5pan/Projects/fishbook/web/public/js/apps/indexApp.js",
-		"/home/s5pan/Projects/fishbook/web/public/js/views/widgets/profile.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/apps/indexApp.coffee",
-		"/home/s5pan/Projects/fishbook/web/pages/index.html",
-		"/home/s5pan/Projects/fishbook/web/public/js/widgets/profileWidget.coffee",
-		"/home/s5pan/Projects/fishbook/web/apis/imageApi.coffee",
-		"/home/s5pan/Projects/fishbook/web/apis/imageApi.js",
-		"/home/s5pan/Projects/fishbook/web/helpers/imager.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/linesRoute.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/entry.edit.htm",
-		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/entriesRoute.coffee",
-		"/home/s5pan/Projects/fishbook/web/apis/entriesApi.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/models/entry.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/entriesRoute.js",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/widgets/wiki.html",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/rods.htm",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/reels.htm",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/lines.htm",
-		"/home/s5pan/Projects/fishbook/web/public/templates/admin/tutorials.htm",
-		"/home/s5pan/Projects/fishbook/web/public/js/apps/adminApp.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/routes/admin/wikisRoute.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/libs/ehbs.coffee",
-		"/home/s5pan/Projects/fishbook/web/public/js/models/tutorial.coffee",
-		"/home/s5pan/Projects/fishbook/web/helpers/compiler.coffee",
-		"/home/s5pan/Projects/fishbook/web/helpers/compiler.js",
-		"/home/s5pan/.config/sublime-text-3/Packages/User/CoffeeScript.sublime-settings"
+		"/Users/VV/Library/Application Support/Sublime Text 3/Packages/Better CoffeeScript/CoffeeScript.sublime-settings",
+		"/Users/VV/Documents/Development/php-getting-started/web/test.php",
+		"/Users/VV/Documents/Development/php-getting-started/web/index.php",
+		"/Users/VV/Documents/Development/php-getting-started/composer.json",
+		"/Users/VV/Documents/Software Engineering/STAT206/Stat206-A01.tex",
+		"/Users/VV/Documents/Tuition.html",
+		"/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf",
+		"/Users/VV/Downloads/routes.php",
+		"/Users/VV/Documents/Development/gHack/gHack/readme.md",
+		"/Applications/MAMP/bin/mamp/phpmyadmin.php",
+		"/Applications/MAMP/bin/mamp/phpinfo.php",
+		"/Users/VV/Documents/Development/VeraLin/project.html",
+		"/Users/VV/Documents/Development/VeraLin/bower_components/modernizr/feature-detects/pointerlock-api.js",
+		"/Users/VV/Documents/Development/VeraLin/bower_components/foundation/js/vendor/placeholder.js",
+		"/Users/VV/Documents/Development/VeraLin/bower_components/jquery/src/callbacks.js",
+		"/Users/VV/Documents/Development/VeraLin/bower_components/modernizr/feature-detects/css-backgroundposition-shorthand.js",
+		"/Users/VV/Documents/Paralucent/Oxford/www/configuration.php",
+		"/Users/VV/Documents/Paralucent/Oxford/www/index.php"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -130,6 +100,39 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"hackathon",
+			"photography",
+			"work",
+			"Branding",
+			"full",
+			"about",
+			"project",
+			"service",
+			"services",
+			"service",
+			"services",
+			"service",
+			"services",
+			"team",
+			"project",
+			"team",
+			"team-person",
+			"<li><a href=\"#\"><i class=\"fa fa-facebook\"></i></a></li>\n                <li><a href=\"#\"><i class=\"fa fa-twitter\"></i></a></li>\n                <li><a href=\"#\"><i class=\"fa fa-google-plus\"></i></a></li>",
+			"fa",
+			"fa-coffee",
+			"fw",
+			"service",
+			"services",
+			"service",
+			"services",
+			"service",
+			"logo",
+			"service",
+			"top-bar-section",
+			"menu",
+			"preloader",
+			"css",
+			"localhost"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -154,11 +157,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
-		"height": 33.0
+		"height": 0.0
 	},
 	"layout":
 	{
@@ -190,7 +193,7 @@
 	"project": "htn-w2g.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -217,7 +220,6 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -225,7 +227,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 347.0,
+	"side_bar_width": 198.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

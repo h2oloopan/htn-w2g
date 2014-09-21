@@ -3,6 +3,7 @@ define [], () ->
 		currentView: null
 		routes:
 			'': 'index'
+			'result': 'result'
 		change: (view) ->
 			if @currentView?
 				@currentView.undelegateEvents()
@@ -16,3 +17,6 @@ define [], () ->
 		#views
 		index: ->
 			@change 'views/index'
+
+		result: ->
+			@change 'views/result'
