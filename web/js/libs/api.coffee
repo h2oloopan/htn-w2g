@@ -27,6 +27,7 @@ define ['jquery', 'utils'], ($, utils) ->
 					url = geoUrl + key + '&key=' + gKey
 					get url, (result) ->
 						location = result.results[0].geometry.location
+						list[key].name = result.results[0].address_components[0].long_name
 						list[key].lat = location.lat
 						list[key].lng = location.lng
 						total--
