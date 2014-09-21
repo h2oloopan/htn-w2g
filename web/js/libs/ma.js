@@ -342,7 +342,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     search: function(input, cb) {
       var city, inserted, list, options, _i, _len, _ref;
       options = {
-        preferences: input.preferences,
+        preferences: input.preferences || ['adventure', 'outdoors', 'landmarks', 'museums', 'cultural'],
         stays: input.stays
       };
       list = {};
@@ -371,6 +371,12 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
         }
         return mystify(result, input.days, options, function(result) {
           return api.saveTrip(result.cities, function(id) {
+            var i, j, _k, _l, _ref1, _ref2;
+            for (i = _k = 0, _ref1 = result.cities.length; 0 <= _ref1 ? _k < _ref1 : _k > _ref1; i = 0 <= _ref1 ? ++_k : --_k) {
+              for (j = _l = 0, _ref2 = result.cities[i].attractions.length; 0 <= _ref2 ? _l < _ref2 : _l > _ref2; j = 0 <= _ref2 ? ++_l : --_l) {
+                result.cities[i].attractions[j] = JSON.parse(result.cities[i].attractions[j]);
+              }
+            }
             localStorage.setItem(id, JSON.stringify(result));
             console.log(result);
             return cb(id);

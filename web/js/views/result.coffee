@@ -6,5 +6,6 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/result.html'],
 		initialize: (options) ->
 			@model = options.data
 		render: ->
+			console.log @model
 			@$el.html _.template(template)(@model)
 			vv.work()

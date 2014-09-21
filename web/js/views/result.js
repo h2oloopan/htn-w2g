@@ -8,6 +8,7 @@ define(['jquery', 'ma', 'utils', 'vv', 'text!templates/result.html'], function($
       return this.model = options.data;
     },
     render: function() {
+      console.log(this.model);
       this.$el.html(_.template(template)(this.model));
       return vv.work();
     }

@@ -272,7 +272,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		
 		search: (input, cb) ->
 			options =
-				preferences: input.preferences
+				preferences: input.preferences || ['adventure', 'outdoors', 'landmarks', 'museums', 'cultural']
 				stays: input.stays
 			list = {}
 			inserted = []
@@ -292,6 +292,9 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 						counter++
 				mystify result, input.days, options, (result) ->
 					api.saveTrip result.cities, (id) ->
+						for i in [0...result.cities.length]
+							for j in [0...result.cities[i].attractions.length]
+								result.cities[i].attractions[j] = JSON.parse result.cities[i].attractions[j]
 						localStorage.setItem id, JSON.stringify result
 						console.log result
 						cb id
