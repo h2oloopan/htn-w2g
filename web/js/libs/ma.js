@@ -7,7 +7,8 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       lng: 1.6
     },
     threshold: 5.0,
-    hours: 12
+    hours: 12,
+    defaultDuration: 3
   };
   prepare = function(stops, attractions) {
     var a, cities, city, end, end_lat, end_lng, id, ids, key, lat, lng, ranks, result, score, start, start_lat, start_lng, _i, _j, _len, _len1, _ref;
@@ -93,10 +94,17 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       for (_j = 0, _len1 = attractions.length; _j < _len1; _j++) {
         attraction = attractions[_j];
         cost = ma.attractions.durations[attraction.subcategory[1].name];
+        if (cost == null) {
+          cost = ma.attractions.durations[attraction.subcategory[0].name];
+        }
+        if (cost == null) {
+          cost = mn.defaultDuration;
+        }
         if (currentHours + cost > totalHours) {
           break;
         }
         attraction.duration = cost;
+        currentHours += cost;
         city.attractions.push(attraction);
         city.score += attraction.score;
       }
@@ -145,9 +153,29 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
     };
     return cb(trip);
   };
-  mystify = function(list, days, cb) {
-    var attractions, end, keys, number, output, start, subcategories, todo;
-    subcategories = null;
+  mystify = function(list, days, options, cb) {
+    var attractions, categorize, end, i, keys, number, output, start, todo, _i, _results;
+    categorize = function(preferences) {
+      var p, qs, _i, _len;
+      if (preferences != null) {
+        qs = '';
+        for (_i = 0, _len = preferences.length; _i < _len; _i++) {
+          p = preferences[_i];
+          qs += p + ',';
+        }
+        qs = qs.substr(0, qs.length - 1);
+        return qs;
+      } else {
+        return null;
+      }
+    };
+    if (cb == null) {
+      cb = options;
+      options = null;
+    }
+    if (options == null) {
+      options = {};
+    }
     console.log('Something to mystify:');
     console.log(list);
     console.log(days);
@@ -159,95 +187,58 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
         break;
       default:
         start = list[keys[0]];
-        end = list[keys[1]];
-        todo = 4;
+        end = list[keys[number - 1]];
+        todo = number * 2;
         attractions = [];
-        api.taIds({
-          lat: start.lat,
-          lng: start.lng
-        }, function(result) {
-          api.taLocation(result.city.id, {
-            type: 'attractions',
-            subcategory: subcategories
+        _results = [];
+        for (i = _i = 0; 0 <= number ? _i < number : _i > number; i = 0 <= number ? ++_i : --_i) {
+          _results.push(api.taIds({
+            lat: list[keys[i]].lat,
+            lng: list[keys[i]].lng
           }, function(result) {
-            var item, _i, _len, _ref;
-            _ref = result.data;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              item = _ref[_i];
-              attractions.push(item);
-            }
-            todo--;
-            if (todo === 0) {
-              return awesomify({
-                start: start,
-                end: end,
-                days: days
-              }, attractions, cb);
-            }
-          });
-          return api.taLocation(result.country.id, {
-            type: 'attractions',
-            subcategory: subcategories
-          }, function(result) {
-            var item, _i, _len, _ref;
-            _ref = result.data;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              item = _ref[_i];
-              attractions.push(item);
-            }
-            todo--;
-            if (todo === 0) {
-              return awesomify({
-                start: start,
-                end: end,
-                days: days
-              }, attractions, cb);
-            }
-          });
-        });
-        return api.taIds({
-          lat: end.lat,
-          lng: end.lng
-        }, function(result) {
-          api.taLocation(result.city.id, {
-            type: 'attractions',
-            subcategory: subcategories
-          }, function(result) {
-            var item, _i, _len, _ref;
-            _ref = result.data;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              item = _ref[_i];
-              attractions.push(item);
-            }
-            todo--;
-            if (todo === 0) {
-              return awesomify({
-                start: start,
-                end: end,
-                days: days
-              }, attractions, cb);
-            }
-          });
-          return api.taLocation(result.country.id, {
-            type: 'attractions',
-            subcategory: subcategories
-          }, function(result) {
-            var item, _i, _len, _ref;
-            _ref = result.data;
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              item = _ref[_i];
-              attractions.push(item);
-            }
-            todo--;
-            if (todo === 0) {
-              return awesomify({
-                start: start,
-                end: end,
-                days: days
-              }, attractions, cb);
-            }
-          });
-        });
+            api.taLocation(result.city.id, {
+              type: 'attractions',
+              subcategory: categorize(options.preferences)
+            }, function(result) {
+              var item, _j, _len, _ref;
+              _ref = result.data;
+              for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+                item = _ref[_j];
+                attractions.push(item);
+              }
+              todo--;
+              if (todo === 0) {
+                return awesomify({
+                  start: start,
+                  end: end,
+                  days: days,
+                  list: list
+                }, attractions, cb);
+              }
+            });
+            return api.taLocation(result.country.id, {
+              type: 'attractions',
+              subcategory: categorize(options.preferences)
+            }, function(result) {
+              var item, _j, _len, _ref;
+              _ref = result.data;
+              for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+                item = _ref[_j];
+                attractions.push(item);
+              }
+              todo--;
+              if (todo === 0) {
+                return awesomify({
+                  start: start,
+                  end: end,
+                  days: days,
+                  list: list
+                }, attractions, cb);
+              }
+            });
+          }));
+        }
+        return _results;
     }
   };
   return ma = {
@@ -320,7 +311,11 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
       }
     },
     search: function(input, cb) {
-      var city, inserted, list, _i, _len, _ref;
+      var city, inserted, list, options, _i, _len, _ref;
+      options = {
+        preferences: input.preferences,
+        stays: input.stays
+      };
       list = {};
       inserted = [];
       _ref = input.cities;
@@ -335,7 +330,17 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
         };
       }
       return api.geoCode(list, function(result) {
-        return mystify(result, input.days, function(result) {
+        var counter, key, keys, _j, _len1;
+        if (options.stays != null) {
+          counter = 0;
+          keys = utils.keys(result);
+          for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
+            key = keys[_j];
+            result[key].stay = options.stays[counter];
+            counter++;
+          }
+        }
+        return mystify(result, input.days, options, function(result) {
           return cb(result);
         });
       });

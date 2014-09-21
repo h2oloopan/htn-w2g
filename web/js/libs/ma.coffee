@@ -6,6 +6,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			lng: 1.6
 		threshold: 5.0
 		hours: 12
+		defaultDuration: 3
 
 	#algorithm
 	prepare = (stops, attractions) ->
@@ -82,8 +83,11 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			currentHours = 0
 			for attraction in attractions
 				cost = ma.attractions.durations[attraction.subcategory[1].name]
+				if !cost? then cost = ma.attractions.durations[attraction.subcategory[0].name]
+				if !cost? then cost = mn.defaultDuration
 				if currentHours + cost > totalHours then break
 				attraction.duration = cost
+				currentHours += cost
 				city.attractions.push attraction
 				city.score += attraction.score
 
@@ -127,8 +131,21 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			ranks: data.ranks
 		return cb trip
 
-	mystify = (list, days, cb) ->
-		subcategories = null
+	mystify = (list, days, options, cb) ->
+		categorize = (preferences) ->
+			if preferences?
+				qs = ''
+				for p in preferences
+					qs += p + ','
+				qs = qs.substr 0, qs.length - 1
+				return qs
+			else
+				return null
+
+		if !cb?
+			cb = options
+			options = null
+		if !options? then options = {}
 		console.log 'Something to mystify:'
 		console.log list
 		console.log days
@@ -142,50 +159,31 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			else
 				#we are visiting multiple cities
 				start = list[keys[0]]
-				end = list[keys[1]]
-				todo = 4
+				end = list[keys[number - 1]]
+				todo = number * 2
 				attractions = []
-				api.taIds
-					lat: start.lat
-					lng: start.lng
-				, (result) ->
-					api.taLocation result.city.id, 
-						type: 'attractions'
-						subcategory: subcategories
-					, (result) ->
-						for item in result.data
-							attractions.push item
-						todo--
-						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
-					api.taLocation result.country.id,
-						type: 'attractions'
-						subcategory: subcategories
-					, (result) ->
-						for item in result.data
-							attractions.push item
-						todo--
-						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
 
-				api.taIds
-					lat: end.lat
-					lng: end.lng
-				, (result) ->
-					api.taLocation result.city.id,
-						type: 'attractions'
-						subcategory: subcategories
+				for i in [0...number]
+					api.taIds
+						lat: list[keys[i]].lat
+						lng: list[keys[i]].lng
 					, (result) ->
-						for item in result.data
-							attractions.push item
-						todo--
-						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
-					api.taLocation result.country.id,
-						type: 'attractions'
-						subcategory: subcategories
-					, (result) ->
-						for item in result.data
-							attractions.push item
-						todo--
-						if todo == 0 then awesomify {start: start, end: end, days: days}, attractions, cb
+						api.taLocation result.city.id, 
+							type: 'attractions'
+							subcategory: categorize options.preferences
+						, (result) ->
+							for item in result.data
+								attractions.push item
+							todo--
+							if todo == 0 then awesomify {start: start, end: end, days: days, list: list}, attractions, cb
+						api.taLocation result.country.id,
+							type: 'attractions'
+							subcategory: categorize options.preferences
+						, (result) ->
+							for item in result.data
+								attractions.push item
+							todo--
+							if todo == 0 then awesomify {start: start, end: end, days: days, list: list}, attractions, cb
 
 	return ma =
 		attractions:
@@ -255,6 +253,9 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 
 		
 		search: (input, cb) ->
+			options =
+				preferences: input.preferences
+				stays: input.stays
 			list = {}
 			inserted = []
 			for city in input.cities
@@ -265,6 +266,11 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 			api.geoCode list, (result) ->
 				#now we have all the city in a list with their coords
 				#the algorithm is here
-				mystify result, input.days, (result) ->
-
+				if options.stays?
+					counter = 0
+					keys = utils.keys result
+					for key in keys
+						result[key].stay = options.stays[counter]
+						counter++
+				mystify result, input.days, options, (result) ->
 					return cb result
