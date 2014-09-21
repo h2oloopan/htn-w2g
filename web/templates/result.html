@@ -63,6 +63,8 @@
                             <div class="content <%= i == 0 ? 'active' : '' %>" id="panel<%= i + 1 %>">
                                 <h3 class="centered-text"><%= cities[i].address %></h3>
                                 <br/>
+                                <div class="map map-<%= i %>" data-lat="<%= cities[i].attractions[0].latitude %>" data-lng="<%= cities[i].attractions[0].longitude %>" data-index="<%= i %>"></div>
+                                <br/>
                                 <div class="attractionCollection" style="text-align:left;">
                                     <% var j = 0 %>
                                     <% for (j = 0; j < cities[i].attractions.length; j++) { %>

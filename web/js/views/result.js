@@ -11,7 +11,40 @@ define(['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'], fun
       console.log(this.model);
       this.$el.html(_.template(template)(this.model));
       vv.work();
+      this.map();
       return this.picture();
+    },
+    map: function() {
+      var counter, thiz;
+      thiz = this;
+      counter = 1;
+      return _.each($('div.map'), function(map) {
+        setTimeout(function() {
+          var a, attractions, coords, currentMap, index, marker, _i, _len, _results;
+          currentMap = new google.maps.Map(map, {
+            zoom: 12,
+            center: {
+              lat: $(map).data('lat'),
+              lng: $(map).data('lng')
+            }
+          });
+          index = $(map).data('index');
+          index = parseInt(index);
+          attractions = thiz.model.cities[index].attractions;
+          _results = [];
+          for (_i = 0, _len = attractions.length; _i < _len; _i++) {
+            a = attractions[_i];
+            coords = new google.maps.LatLng(a.latitude, a.longitude);
+            _results.push(marker = new google.maps.Marker({
+              position: coords,
+              map: currentMap,
+              title: a.name
+            }));
+          }
+          return _results;
+        }, counter * 3000);
+        return counter++;
+      });
     },
     picture: function() {
       var counter;
@@ -23,7 +56,7 @@ define(['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'], fun
               return $(img).attr('src', url);
             }
           });
-        }, counter * 500);
+        }, counter * 400);
         return counter++;
       });
     }

@@ -1,3 +1,9 @@
+div.map {
+  width: 90%;
+  height: 400px;
+  margin: 20px auto;
+}
+
 .attraction{
   height:160px;
   width:160px;
