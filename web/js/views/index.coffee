@@ -5,7 +5,7 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 		events:
 			'click .simple-search-submit': 'search'
 			'click #advance-add': 'advanceAdd'
-			'click .btn-test': 'test'
+			'click .btn-advance-submit': 'advanceSearch'
 		render: ->
 			@$el.html _.template(template)({subcategories: ma.attractions.subcategories})
 			vv.work()
@@ -15,8 +15,8 @@ define ['jquery', 'ma', 'utils', 'vv', 'text!templates/index.html', 'text!templa
 				types: ['(cities)']
 			acEnd = new google.maps.places.Autocomplete document.getElementById('txt-end'),
 				types: ['(cities)']
-		test: ->
-			form = utils.serialize $('.preference')
+		advanceSearch: ->
+			form = utils.serialize $('.advanced-search-form')
 			alert JSON.stringify form
 			return false
 		advanceAdd: ->

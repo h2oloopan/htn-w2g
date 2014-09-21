@@ -6,22 +6,23 @@
 		<div class="row">
 			<div class="large-12 columns">
 				<nav class="top-bar" data-topbar>
-					<ul class="title-area">
-						<li>
-							<div id="logo">
-								<h1><a href="index.html"><i class="fa fa-dot-circle-o"></i> Where2go</a></h1>
-							</div>
-						</li>
-						<li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
-					</ul>
-					<section class="top-bar-section">
-						<ul id="menu" class="right">
-							<li><a class="scroll" href="#home-scroll">Home</a></li>
-							<li><a class="scroll" href="#about-scroll">About</a></li>
-							<li><a class="scroll" href="#work-scroll">Advanced</a></li>
-						</ul>
-					</section>
-				</nav>
+            <ul class="title-area">
+              <li>
+                <div id="logo">
+                  <h1><a href="index.html"><i class="fa fa-dot-circle-o"></i> Where2go</a></h1>
+                </div>
+              </li>
+              <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+            </ul>
+
+            <section class="top-bar-section">
+              <ul id="menu" class="right"> 
+               <li><a class="scroll" href="#home-scroll">Home</a></li>
+               <li><a class="scroll" href="#about-scroll">About</a></li>
+               <li><a class="scroll" href="#advance-scroll">Advanced</a></li>
+             </ul>
+           </section>
+         </nav>
 			</div>
 		</div>
 	</div>
@@ -29,13 +30,13 @@
 		<form id="form-search-simple" style = "position:absolute; width:100%; margin: 0 auto; top:66%; z-index:1000;">
 			<div class = "simple-search">
 				<div class="row">
-					<div class="large-4 columns">
+					<div class="medium-4 columns">
 						<input value="London, United Kingdom" type="text" name="start" id="txt-start" placeholder="Where do you want to start your journey?" />
 					</div>
-					<div class="large-4 columns">
+					<div class="medium-4 columns">
 						<input value="Liverpool, United Kingdom" type="text" name="end" id="txt-end" placeholder="Where is your destination?" />
 					</div>
-					<div class="large-4 columns">
+					<div class="medium-4 columns">
 						<input value="5" type="text" name="days" id="txt-days" placeholder="How many days?" />
 					</div>
 				</div>
@@ -111,6 +112,8 @@
 			</div>
 		</div>
 	</section>
+
+	<a id="advance-scroll"></a>
 	<section id="parallax-container" class="parallax-section" style="background-image: url('img/f3.jpg');" data-stellar-background-ratio="0.6" data-stellar-vertical-offset="20">
 		<div class="has-bg-color">
 			<div class="row">
@@ -119,46 +122,35 @@
 						<p class="text-large light centered-text">Advanced Trip</p>
 						<!-- TEST FORM START-->
 						</br>
-						<form class = "custom">
+						<form class = "custom advanced-search-form">
 							<div class = "advanced-search">
 								<div class = "advanced-search-row">
 									<div class="row">
 										<div class="large-6 columns">
-											<input type="text" placeholder="Where do you want to go?" />
+											<input name = "city" type="text" placeholder="Where do you want to go?" />
 										</div>
 										<div class="large-6 columns">
-											<input type="text" placeholder="How many days?" />
+											<input name = "day" type="text" placeholder="How many days?" />
 										</div>
 									</div>
 								</div>
-								<div class = "advanced-search-row">
+							</div>
+							<div class = "advanced-search-row">
 									<div class="row">
 										<div class="large-6 columns">
-											<input type="text" placeholder="Where do you want to go?" />
+											<input name = "city" type="text" placeholder="Where is your destination?" />
 										</div>
 										<div class="large-6 columns">
-											<input type="text" placeholder="How many days?" />
+											<input name = "day" type="text" placeholder="How many days?" />
 										</div>
 									</div>
 								</div>
-							</div>
 							<a id = "advance-add"><i class="fa fa-plus-circle fa-3x"></i></a>
-							<div class="row">
-								<div class="large-12 columns">
-									<label>Select Box
-										<select>
-											<option value="husker">Museum</option>
-											<option value="starbuck">Landscape</option>
-											<option value="hotdog">Culture</option>
-											<option value="apollo">Outdoor</option>
-										</select>
-									</label>
-								</div>
-							</div>
-							<div class = "testarea" style = "height:500px; background-color: rgba(255, 255, 255, 0.7);">
+
+							<div class = "preference-area" >
 								<div class="row">
-									<div class="large-12 columns div-test">
-										<label>Preference</label>
+									<div class="large-12 columns">
+										<label><h3>Preference</h3></label>
 										<!--
 										<% _.each(subcategories, function(key, value){ %>
 											<p><%= key %> <%= value %></p>
@@ -171,12 +163,12 @@
 										<% _.each(subcategories, function(key, value){ %>
 
 
-										<input id="checkbox1" type="checkbox" value="<%= key %>" name="preference"><label for="checkbox1"> <%= value %></label>
+										<div class="large-3 medium-4 small-6 columns preference-item" style = "text-align:left;">
+										<input id="checkbox1" type="checkbox" value="<%= key %>" name="preference"><label for="checkbox1"> <%= value %></label></div>
 
 										<%	}); %>
 
 										</br>
-										<button class="btn-test">TEST</button>
 									</div>
 								</div>
 							</div>
@@ -184,7 +176,7 @@
 						<!-- TEST FORM END -->
 						<br/>
 						<p class="centered-text">
-						<a href="#" class="cherio-button cherio-button1 medium-button light">Plan My Trip</a>
+						<a href="#" class="cherio-button cherio-button1 medium-button light btn-advance-submit">Plan My Trip</a>
 						</p>
 					</div>
 				</div>
