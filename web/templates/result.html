@@ -44,14 +44,14 @@
                         <% var counter = 0; %>
                         <% var start = 1; %>
                         <dd class="active">
-                            <a href="#panel<%= counter + 1 %>">
+                            <a href="#panel<%= counter + 1 %>" class="btn-tab" data-index="<%= counter + 1 %>">
                                 Day <%= start %> <%= cities[counter].duration > 1 ? ' - ' + cities[counter].duration : '' %> 
                             </a>
                         </dd>
                         <% for (counter = 1; counter < cities.length; counter++) { %>
                         <% start += cities[counter-1].duration %>
                             <dd>
-                                <a href="#panel<%= counter + 1 %>">
+                                <a href="#panel<%= counter + 1 %>" class="btn-tab" data-index="<%= counter + 1 %>">
                                     Day <%= start %> <%= cities[counter].duration > 1 ? ' - ' + (start + cities[counter].duration) : '' %>
                                 </a> 
                             </dd>
@@ -63,7 +63,7 @@
                             <div class="content <%= i == 0 ? 'active' : '' %>" id="panel<%= i + 1 %>">
                                 <h3 class="centered-text"><%= cities[i].address %></h3>
                                 <br/>
-                                <div class="map map-<%= i %>" data-lat="<%= cities[i].attractions[0].latitude %>" data-lng="<%= cities[i].attractions[0].longitude %>" data-index="<%= i %>"></div>
+                                <div class="map map-<%= i + 1 %>" data-lat="<%= cities[i].attractions[0].latitude %>" data-lng="<%= cities[i].attractions[0].longitude %>" data-index="<%= i %>"></div>
                                 <br/>
                                 <div class="attractionCollection" style="text-align:left;">
                                     <% var j = 0 %>

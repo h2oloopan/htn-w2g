@@ -4,8 +4,13 @@ define(['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'], fun
   return ResultView = Backbone.View.extend({
     el: $('body'),
     model: null,
+    maps: {},
+    events: {
+      'click .btn-tab': 'tab'
+    },
     initialize: function(options) {
-      return this.model = options.data;
+      this.model = options.data;
+      return this.maps = {};
     },
     render: function() {
       console.log(this.model);
@@ -14,37 +19,67 @@ define(['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'], fun
       this.map();
       return this.picture();
     },
-    map: function() {
-      var counter, thiz;
+    tab: function(e) {
+      var index, target, thiz;
       thiz = this;
-      counter = 1;
-      return _.each($('div.map'), function(map) {
-        setTimeout(function() {
-          var a, attractions, coords, currentMap, index, marker, _i, _len, _results;
-          currentMap = new google.maps.Map(map, {
-            zoom: 12,
-            center: {
-              lat: $(map).data('lat'),
-              lng: $(map).data('lng')
-            }
-          });
-          index = $(map).data('index');
-          index = parseInt(index);
-          attractions = thiz.model.cities[index].attractions;
-          _results = [];
-          for (_i = 0, _len = attractions.length; _i < _len; _i++) {
-            a = attractions[_i];
-            coords = new google.maps.LatLng(a.latitude, a.longitude);
-            _results.push(marker = new google.maps.Marker({
-              position: coords,
-              map: currentMap,
-              title: a.name
-            }));
+      target = e.currentTarget;
+      index = $(target).data('index');
+      if (this.maps['m' + index] != null) {
+        return;
+      }
+      return setTimeout(function() {
+        var a, attractions, coords, currentMap, map, marker, _i, _len, _results;
+        map = $('div.map-' + index)[0];
+        currentMap = new google.maps.Map(map, {
+          zoom: 12,
+          center: {
+            lat: $(map).data('lat'),
+            lng: $(map).data('lng')
           }
-          return _results;
-        }, counter * 3000);
-        return counter++;
+        });
+        thiz.maps['m' + index] = currentMap;
+        index = $(map).data('index');
+        index = parseInt(index);
+        attractions = thiz.model.cities[index].attractions;
+        _results = [];
+        for (_i = 0, _len = attractions.length; _i < _len; _i++) {
+          a = attractions[_i];
+          coords = new google.maps.LatLng(a.latitude, a.longitude);
+          _results.push(marker = new google.maps.Marker({
+            position: coords,
+            map: currentMap,
+            title: a.name
+          }));
+        }
+        return _results;
+      }, 300);
+    },
+    map: function() {
+      var a, attractions, coords, currentMap, index, map, marker, thiz, _i, _len, _results;
+      thiz = this;
+      map = $('div.map-1')[0];
+      currentMap = new google.maps.Map(map, {
+        zoom: 12,
+        center: {
+          lat: $(map).data('lat'),
+          lng: $(map).data('lng')
+        }
       });
+      this.maps['m1'] = currentMap;
+      index = $(map).data('index');
+      index = parseInt(index);
+      attractions = thiz.model.cities[index].attractions;
+      _results = [];
+      for (_i = 0, _len = attractions.length; _i < _len; _i++) {
+        a = attractions[_i];
+        coords = new google.maps.LatLng(a.latitude, a.longitude);
+        _results.push(marker = new google.maps.Marker({
+          position: coords,
+          map: currentMap,
+          title: a.name
+        }));
+      }
+      return _results;
     },
     picture: function() {
       var counter;
@@ -56,7 +91,7 @@ define(['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'], fun
               return $(img).attr('src', url);
             }
           });
-        }, counter * 400);
+        }, counter * 800);
         return counter++;
       });
     }

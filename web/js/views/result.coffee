@@ -3,38 +3,64 @@ define ['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'],
 	return ResultView = Backbone.View.extend 
 		el: $('body')
 		model: null
+		maps: {}
+		events:
+			'click .btn-tab': 'tab'
 		initialize: (options) ->
 			@model = options.data
+			@maps = {} 
 		render: ->
 			console.log @model
 			@$el.html _.template(template)(@model)
 			vv.work()
 			@map()
 			@picture()
+		tab: (e) ->
+			thiz = @
+			target = e.currentTarget
+			index = $(target).data 'index'
+
+			if @maps['m' + index]? then return
+
+			setTimeout ->
+				map = $('div.map-' + index)[0]
+				currentMap = new google.maps.Map map,
+				zoom: 12
+				center: 
+					lat: $(map).data 'lat'
+					lng: $(map).data 'lng'
+
+				thiz.maps['m' + index] = currentMap
+
+				index = $(map).data 'index'
+				index = parseInt index
+				attractions = thiz.model.cities[index].attractions
+				for a in attractions
+					coords = new google.maps.LatLng a.latitude, a.longitude
+					marker = new google.maps.Marker
+						position: coords
+						map: currentMap
+						title: a.name
+			, 300
 		map: ->
 			thiz = @
-			counter = 1
-			
-			_.each $('div.map'), (map) ->
-				setTimeout ->
-					currentMap = new google.maps.Map map,
-						zoom: 12
-						center: 
-							lat: $(map).data 'lat'
-							lng: $(map).data 'lng'
+			map = $('div.map-1')[0]				
+			currentMap = new google.maps.Map map,
+				zoom: 12
+				center: 
+					lat: $(map).data 'lat'
+					lng: $(map).data 'lng'
+			@maps['m1'] = currentMap
 
-					index = $(map).data 'index'
-					index = parseInt index
-					attractions = thiz.model.cities[index].attractions
-					for a in attractions
-						coords = new google.maps.LatLng a.latitude, a.longitude
-						marker = new google.maps.Marker
-							position: coords
-							map: currentMap
-							title: a.name
-				, counter * 3000
-				counter++
-			
+			index = $(map).data 'index'
+			index = parseInt index
+			attractions = thiz.model.cities[index].attractions
+			for a in attractions
+				coords = new google.maps.LatLng a.latitude, a.longitude
+				marker = new google.maps.Marker
+					position: coords
+					map: currentMap
+					title: a.name
 
 		picture: ->
 			counter = 1
@@ -42,5 +68,5 @@ define ['jquery', 'ma', 'api', 'utils', 'vv', 'text!templates/result.html'],
 				setTimeout ->
 					api.getPhoto $(img).data('name'), $(img).data('address'), (url) ->
 						if url? then $(img).attr 'src', url
-				, counter * 400
+				, counter * 800
 				counter++
