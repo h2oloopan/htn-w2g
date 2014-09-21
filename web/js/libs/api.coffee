@@ -16,7 +16,21 @@ define ['jquery', 'utils'], ($, utils) ->
 			console.log b
 			console.log c
 
+	post = (url, done) ->
+		$.ajax
+			type: 'POST'
+			url: url
+			dataType: 'json'
+		.done done
+		.fail (a, b, c) ->
+			console.log a
+			console.log b
+			console.log c
+
 	return api =
+		addTrip: (trip) ->
+			return false
+
 		#awesome stuff is happening here
 		geoCode: (list, cb) ->
 			keys = utils.keys list

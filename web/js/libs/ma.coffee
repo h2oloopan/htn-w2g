@@ -128,7 +128,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 		return cb trip
 
 	mystify = (list, days, cb) ->
-		subcategories = 'landmarks'
+		subcategories = null
 		console.log 'Something to mystify:'
 		console.log list
 		console.log days
@@ -253,7 +253,7 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				'museums': 2
 				'cultural': 2
 
-			
+		
 		search: (input, cb) ->
 			list = {}
 			inserted = []
@@ -266,4 +266,5 @@ define ['jquery', 'api', 'utils'], ($, api, utils) ->
 				#now we have all the city in a list with their coords
 				#the algorithm is here
 				mystify result, input.days, (result) ->
+
 					return cb result

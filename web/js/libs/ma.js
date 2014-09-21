@@ -147,7 +147,7 @@ define(['jquery', 'api', 'utils'], function($, api, utils) {
   };
   mystify = function(list, days, cb) {
     var attractions, end, keys, number, output, start, subcategories, todo;
-    subcategories = 'landmarks';
+    subcategories = null;
     console.log('Something to mystify:');
     console.log(list);
     console.log(days);
