@@ -69,7 +69,7 @@
                                         <div class="attraction-item">
                                             <div class="large-4 medium-6 columns centered-text">
                                                 <% var item = cities[i].attractions[j] %>
-                                                <img class="attraction"/>
+                                                <img class="attraction" src="img/noimage.png" data-name="<%= item.name %>" data-address="<%= item.address_obj.address_string %>"/>
                                                 <h6><%= item.name %></h6>
                                                 <h7>Estimated Time: <%= item.duration %> Hours</h7>
                                                 <p>Rating: <%= item.rating %> <a href="<%= item.web_url %>">Read on TripAdvisor</a></p>

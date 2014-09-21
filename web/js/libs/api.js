@@ -51,23 +51,52 @@ define(['jquery', 'utils'], function($, utils) {
         return cb(result.id);
       });
     },
-    recoverTrip: function(str) {},
+    recoverTrip: function(id, cb) {
+      var url;
+      url = 'http://w2g.venture.social/api/user/sync/' + id;
+      return get(url, function(result) {});
+    },
     getPhoto: function(name, address, cb) {
       var map, service;
       map = new google.maps.Map($('<div></div>')[0], {});
       service = new google.maps.places.PlacesService(map);
       return service.textSearch({
         query: name + ' ' + address
-      }, function(result) {
+      }, function(result, status) {
         var pid;
+        if (status !== google.maps.places.PlacesServiceStatus.OK) {
+          return cb(null);
+        }
+        if (result == null) {
+          return cb(null);
+        }
+        if (result[0] == null) {
+          return cb(null);
+        }
         pid = result[0].place_id;
-        return service.getDetails({
+        service.getDetails({
           placeId: pid
-        }, function(result) {
+        }, function(result, status) {
           var url;
-          url = result.photos[0].getUrl();
+          if (status !== google.maps.places.PlacesServiceStatus.OK) {
+            return cb(null);
+          }
+          if (result == null) {
+            return cb(null);
+          }
+          if (result.photos == null) {
+            return cb(null);
+          }
+          if (result.photos[0] == null) {
+            return cb(null);
+          }
+          url = result.photos[0].getUrl({
+            maxWidth: result.photos[0].width,
+            maxHeight: result.photos[0].height
+          });
           return cb(url);
         });
+        return false;
       });
     },
     geoCode: function(list, cb) {

@@ -46,7 +46,10 @@ define ['jquery', 'utils'], ($, utils) ->
 			post url, toSend, (result) ->
 				cb result.id
 
-		recoverTrip: (str) ->
+		recoverTrip: (id, cb) ->
+			url = 'http://w2g.venture.social/api/user/sync/' + id
+			get url, (result) ->
+								 
 
 
 
@@ -55,13 +58,24 @@ define ['jquery', 'utils'], ($, utils) ->
 			service = new google.maps.places.PlacesService map
 			service.textSearch
 				query: name + ' ' + address
-			, (result) ->
+			, (result, status) ->
+				if status != google.maps.places.PlacesServiceStatus.OK then return cb null
+				if !result? then return cb null
+				if !result[0]? then return cb null 
 				pid = result[0].place_id
 				service.getDetails
 					placeId: pid
-				, (result) ->
-					url = result.photos[0].getUrl()
-					cb url
+				, (result, status) ->
+					if status != google.maps.places.PlacesServiceStatus.OK then return cb null
+					if !result? then return cb null
+					if !result.photos? then return cb null 
+					if !result.photos[0]? then return cb null
+					url = result.photos[0].getUrl
+						maxWidth: result.photos[0].width
+						maxHeight: result.photos[0].height
+					return cb url
+				return false
+					
 
 
 
